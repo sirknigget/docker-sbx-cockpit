@@ -36,3 +36,16 @@ using only freshly created sandbox/template/scoped-secret/port resources; cleanu
 and unchanged original inventories verified. Custom secrets also accept direct
 values through stdin (confirmed on a freshly created, owned sandbox); both
 reference and direct-value flows have backend and browser tests.
+
+Slice 5 complete: documented installation, CLI options, operating limits,
+macOS screenshot reproduction and safe live-test ownership. CI runs the complete
+quality gate on macOS with the pinned Chromium. Final `npm run check` passed:
+strict anti-slop/Oxlint (zero linter warnings), Prettier, TypeScript, 53 backend/CLI
+tests, production build, and 17 browser tests with nine exact screenshot baselines.
+Final live API test also passed service and custom-value secrets, port publishing,
+template save/reuse, files, disk and persistent Bash; all owned resources cleaned.
+Original sandbox (including last-used timestamp), all three original templates
+and original secret inventory remain unchanged. Development server startup and
+production CLI startup on a custom port verified.
+
+All five slices are complete and pushed as separate commits.

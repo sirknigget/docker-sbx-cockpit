@@ -1,0 +1,25 @@
+name: Quality gate
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  check:
+    # The committed pixel-exact baselines use macOS Chromium.
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm install --global pnpm@10.33.0
+      - run: npm ci
+      - run: npx playwright install chromium
+      - run: npm run check
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: browser-test-results
+          path: test-results/

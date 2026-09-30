@@ -20,3 +20,15 @@ through package-lock), Oxlint, Prettier, type checks, backend integration tests
 and deterministic Playwright screenshot snapshots are quality gates.
 
 Implement and push each verifiable vertical slice; track progress in TASKS.md.
+
+The quality gate uses the user-requested exact limits: cognitive complexity 12,
+cyclomatic complexity 10, maximum file lines 500 and maximum function lines 50.
+Do not relax these thresholds or add broad lint suppressions to pass the gate.
+Screenshot goldens use macOS Chromium, fixture data, UTC, en-US, 1440x1000 and
+zero pixel tolerance. Update only after reviewing an intentional UI change.
+
+Local template save requires stopping the source sandbox first. Service, registry
+and custom-value secrets all support stdin in sbx v0.46.0; use it, never argv.
+macOS keychain operations in live tests may require an unsandboxed tool run.
+Prove resource ownership from a just-created sandbox and recorded inventories
+before requesting escalation, and delete only exact recorded scoped secrets.
