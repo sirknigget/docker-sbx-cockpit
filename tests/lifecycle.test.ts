@@ -126,3 +126,16 @@ test('CLI failures propagate without hiding useful error', async () => {
     'Unavailable',
   );
 });
+
+test('API reads require custom header because inspection can start sandboxes', async () => {
+  const before = runner.calls.length;
+  await request(app.getHttpServer())
+    .get('/api/sandboxes')
+    .set('Host', '127.0.0.1')
+    .expect(403);
+  await request(app.getHttpServer())
+    .get('/api/health')
+    .set('Host', '127.0.0.1')
+    .expect(200);
+  expect(runner.calls).toHaveLength(before);
+});

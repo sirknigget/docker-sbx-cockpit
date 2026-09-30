@@ -1,0 +1,129 @@
+.configuration-section {
+  margin-top: 26px;
+}
+.section-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  margin-bottom: 22px;
+}
+.section-heading h2 {
+  margin: 0;
+  font-size: 20px;
+}
+.section-heading h2 span {
+  font-size: 12px;
+  padding: 3px 7px;
+  border: 1px solid #3a4433;
+  border-radius: 5px;
+  margin-left: 8px;
+  color: #a4b396;
+}
+.section-heading p {
+  margin: 8px 0 0;
+}
+.template-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 18px;
+}
+.template-card {
+  background: #1a201a;
+  border: 1px solid #343d30;
+  border-radius: 9px;
+  padding: 23px;
+  min-width: 0;
+}
+.template-card > svg {
+  color: #bdd69f;
+}
+.template-card h3 {
+  margin: 20px 0 8px;
+  font-size: 16px;
+}
+.template-reference {
+  font-family: monospace;
+  color: #8c9982;
+  font-size: 11px;
+  overflow-wrap: anywhere;
+}
+.template-meta {
+  display: flex;
+  justify-content: space-between;
+  color: #a3ad9a;
+  font-size: 12px;
+  margin: 23px 0;
+}
+.template-actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  border-top: 1px solid #30392c;
+  padding-top: 17px;
+}
+.configuration-table {
+  border: 1px solid #343d30;
+  border-radius: 8px;
+  overflow: auto;
+  background: #191f19;
+}
+.configuration-table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.configuration-table th {
+  text-align: left;
+  color: #889780;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 15px 20px;
+  border-bottom: 1px solid #343d30;
+}
+.configuration-table td {
+  padding: 19px 20px;
+  border-bottom: 1px solid #2b3427;
+  font-size: 12px;
+}
+.configuration-table tr:last-child td {
+  border-bottom: 0;
+}
+.secret-kind {
+  color: #aebf9e;
+}
+.secret-scope {
+  max-width: 240px;
+}
+.secret-row-name small {
+  display: block;
+  color: #8b9881;
+  margin-top: 6px;
+  font-family: monospace;
+}
+.configuration-toolbar {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 20px;
+}
+.configuration-toolbar select {
+  width: auto;
+  min-width: 180px;
+}
+@media (max-width: 800px) {
+  .section-heading {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+  .configuration-table td,
+  .configuration-table th {
+    padding: 12px;
+  }
+}
+
+.inventory-refresh {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 18px;
+}

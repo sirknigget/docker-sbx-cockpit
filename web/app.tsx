@@ -8,16 +8,22 @@ import { Heading, Stats } from './overview';
 import { useInventory } from './use-inventory';
 import { LifecycleAction, type PendingAction } from './lifecycle-action';
 import { SandboxDetail } from './detail';
+import { Templates } from './templates';
+import { Secrets } from './secrets';
 export function App() {
   const inventory = useInventory();
   const [section, setSection] = useState<Section>('sandboxes');
-  const [selected, setSelected] = useState<Sandbox>();
-  const [creating, setCreating] = useState(false);
+  const [selectedName, setSelectedName] = useState<string>();
+  const selected = inventory.sandboxes.find(
+    (sandbox) => sandbox.name === selectedName,
+  );
+  const [creation, setCreation] = useState<{ template?: string }>();
+  const [revision, setRevision] = useState(0);
   const [notice, setNotice] = useState('');
   const [pending, setPending] = useState<PendingAction>();
   function navigate(next: Section) {
     setSection(next);
-    setSelected(undefined);
+    setSelectedName(undefined);
     setNotice('');
   }
   function completed(message: string) {
@@ -34,7 +40,10 @@ export function App() {
         section={section}
         selected={selected}
         loading={inventory.loading}
-        onRefresh={() => void inventory.refresh()}
+        onRefresh={() => {
+          void inventory.refresh();
+          setRevision((value) => value + 1);
+        }}
       />
       {inventory.error && (
         <div className="error-banner" role="alert">
@@ -51,14 +60,17 @@ export function App() {
         section={section}
         sandboxes={inventory.sandboxes}
         selected={selected}
-        onBack={() => setSelected(undefined)}
-        onSelect={setSelected}
-        onCreate={() => setCreating(true)}
+        onBack={() => setSelectedName(undefined)}
+        onSelect={(sandbox) => setSelectedName(sandbox.name)}
+        onCreate={(template) => setCreation({ template })}
+        revision={revision}
+        onChanged={() => void inventory.refresh()}
         onAction={(sandbox, action) => setPending({ sandbox, action })}
       />
-      {creating && (
+      {creation && (
         <CreateSandboxDialog
-          onClose={() => setCreating(false)}
+          onClose={() => setCreation(undefined)}
+          template={creation.template}
           onCreated={() => completed('Sandbox created')}
         />
       )}
@@ -78,29 +90,39 @@ interface ContentProps {
   selected?: Sandbox;
   onBack: () => void;
   onSelect: (sandbox: Sandbox) => void;
-  onCreate: () => void;
+  onCreate: (template?: string) => void;
+  revision: number;
+  onChanged: () => void;
   onAction: (sandbox: Sandbox, action: 'stop' | 'delete') => void;
 }
 function Content(props: ContentProps) {
   if (props.selected)
-    return <SandboxDetail sandbox={props.selected} onBack={props.onBack} />;
+    return (
+      <SandboxDetail
+        sandbox={props.selected}
+        onBack={props.onBack}
+        onChanged={props.onChanged}
+      />
+    );
   if (props.section === 'sandboxes')
     return (
       <>
         <Stats sandboxes={props.sandboxes} />
         <SandboxList
           sandboxes={props.sandboxes}
-          onCreate={props.onCreate}
+          onCreate={() => props.onCreate()}
           onSelect={props.onSelect}
           onAction={props.onAction}
         />
       </>
     );
-  return (
-    <p className="muted">
-      {props.section === 'templates'
-        ? 'Reusable sandbox snapshots'
-        : 'Credentials stored by sbx'}
-    </p>
-  );
+  if (props.section === 'templates')
+    return (
+      <Templates
+        key={props.revision}
+        sandboxes={props.sandboxes}
+        onCreate={props.onCreate}
+      />
+    );
+  return <Secrets key={props.revision} sandboxes={props.sandboxes} />;
 }

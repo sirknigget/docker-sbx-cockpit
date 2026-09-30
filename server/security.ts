@@ -18,7 +18,7 @@ export function localRequest(req: Request, res: Response, next: NextFunction) {
       .json({ message: 'Cross-origin requests are blocked' });
   if (
     req.path.startsWith('/api') &&
-    req.method !== 'GET' &&
+    req.path !== '/api/health' &&
     req.headers['x-cockpit-request'] !== '1'
   )
     return res.status(403).json({ message: 'Missing Cockpit request header' });

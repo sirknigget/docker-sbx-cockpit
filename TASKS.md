@@ -18,3 +18,10 @@ endpoint on custom port 19876 passed.
 Slice 2 complete: lifecycle Nest endpoints and React UI. Six backend/security
 tests and five fixture-backed browser tests pass, including two exact screenshot
 baselines. New temporary sandbox creation verified live; existing resources untouched.
+
+Slice 3 complete: template list/save/delete/reuse, scoped service and registry
+secrets, custom secret references, and all six published-port protocols.
+22 backend configuration tests and six browser tests pass; three exact screenshot
+baselines cover templates, secrets and ports. Runner output/timeouts verified with
+eight tests using a fake executable. API reads now require a same-origin request
+header because inspection can start stopped sandboxes.

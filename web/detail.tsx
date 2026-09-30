@@ -1,12 +1,15 @@
 import { ArrowLeft } from 'lucide-react';
 import type { Sandbox } from '../shared/contracts';
 import { Badge } from './ui';
+import { Ports } from './ports';
 export function SandboxDetail({
   sandbox,
   onBack,
+  onChanged,
 }: {
   sandbox: Sandbox;
   onBack: () => void;
+  onChanged: () => void;
 }) {
   return (
     <section>
@@ -21,6 +24,7 @@ export function SandboxDetail({
       <p className="muted">
         {sandbox.workspaces.join(', ') || 'No workspace mounted'}
       </p>
+      <Ports sandbox={sandbox.name} onChanged={onChanged} />
     </section>
   );
 }

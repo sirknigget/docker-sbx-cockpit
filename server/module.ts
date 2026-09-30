@@ -3,6 +3,7 @@ import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'node:path';
 import { Runner, SbxRunner } from './runner';
 import { Sandboxes, SandboxesController } from './sandboxes';
+import { Configuration, ConfigurationController } from './configuration';
 @Controller('api')
 class HealthController {
   @Get('health') health() {
@@ -20,8 +21,16 @@ export class AppModule {
           exclude: ['/api/{*path}'],
         }),
       ],
-      controllers: [HealthController, SandboxesController],
-      providers: [{ provide: Runner, useValue: runner }, Sandboxes],
+      controllers: [
+        HealthController,
+        SandboxesController,
+        ConfigurationController,
+      ],
+      providers: [
+        { provide: Runner, useValue: runner },
+        Sandboxes,
+        Configuration,
+      ],
     };
   }
 }
