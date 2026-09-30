@@ -1,130 +1,118 @@
 # Docker Sandbox Cockpit
 
-A local NestJS + React control plane for Docker Sandboxes. All sandbox lifecycle,
-template, secret, port, and Bash operations go through the installed `sbx` CLI.
+Manage your local Docker Sandboxes from one browser window. Create environments
+for coding agents or Bash, reuse templates, connect services, and inspect files
+and disk usage without switching between CLI commands.
 
-## Run
+Cockpit runs on your machine and uses your installed `sbx` CLI. It shows your
+existing sandboxes and templates alongside any you create here.
 
-Requires Node.js 22.12+, Git, pnpm (for building the pinned anti-slop Git dependency),
-and Docker Sandboxes with `sbx` on PATH. Tested with sbx v0.46.0.
+## Get started
+
+You'll need:
+
+- [Docker Sandboxes](https://docs.docker.com/ai/sandboxes/) installed and running,
+  with `sbx` available in your terminal.
+  This version has been tested with sbx v0.46.0.
+- Node.js 22.12 or newer, including npm.
+- Git and pnpm installed to download and install the app from source.
+
+Check that Docker Sandboxes is available with `sbx --help`, then install Cockpit:
 
 ```sh
+git clone https://github.com/sirknigget/docker-sbx-cockpit.git
+cd docker-sbx-cockpit
 npm ci
 npm run build
-npm start                         # http://127.0.0.1:9876
+npm start
+```
+
+Open [Cockpit](http://127.0.0.1:9876) in your browser. Keep the terminal running
+while you use the app; press **Ctrl+C** there to stop serving Cockpit.
+
+### Use a different port
+
+```sh
 npm start -- --port 9880
-node bin/sbx-cockpit.mjs -p 9880
-# Optional command installation:
-npm link
-sbx-cockpit --port 9880
 ```
 
-The CLI also accepts `PORT` as the default. It binds only to `127.0.0.1`.
-CLI arguments take precedence over `PORT`; `--help` shows usage. Run it from any
-working directory after installation. `sbx` errors appear in the UI, including
-missing Docker services, unsupported options and image-pull failures.
+Then open [http://127.0.0.1:9880](http://127.0.0.1:9880). You can also set the
+`PORT` environment variable; `--port` takes precedence. Cockpit listens only on
+this machine, at `127.0.0.1`.
 
-For development, run `npm run dev` and `npm run dev:web` in separate terminals.
-The Vite proxy targets the backend on port 9876. `PORT=...` applies to the NestJS
-server; update the Vite target when using a different development backend port.
+To use the `sbx-cockpit` command from any folder, run `npm link` once from the
+project folder after building. Then run `sbx-cockpit`, or
+`sbx-cockpit --port 9880`. Use `sbx-cockpit --help` to see its options.
 
-## Features
+## Create your first sandbox
 
-- List, create, stop, and delete local sandboxes. Choose a built-in agent or pure
-  Bash, optional saved template, and multiple host workspace mounts (`:ro` supported).
-- List, save, delete, and create sandboxes from local templates. Stop the source
-  sandbox before saving; mounted workspaces and port mappings are excluded.
-- List and manage service and registry secrets by global, host or sandbox scope.
-  Custom secrets accept values or 1Password/AWS Secrets Manager references. Values are passed
-  through stdin and never returned to the browser or included in API error output.
-  Registry host-scope deletion follows sbx semantics and also removes the global
-  entry for that registry; the confirmation explains this.
-- Publish and remove ports with ephemeral or explicit host bindings, IPv4/IPv6,
-  and `tcp`, `tcp4`, `tcp6`, `udp`, `udp4`, or `udp6`.
-- Browse sandbox folders and read UTF-8 regular files up to 1 MiB in a scrollable
-  viewer. Binary files, symlinks, devices and FIFOs are rejected. Directory results
-  are bounded to 500 entries and indicate truncation.
-- Inspect filesystem capacity and the largest immediate directories using `du`
-  and `df`. Scans stay on one filesystem, time out after 60 seconds, and report
-  partial totals when permissions prevent a complete scan. Browse a listed large
-  directory by entering its path for a narrower scan.
-- Open a persistent Bash console using `sbx exec -i ... bash --noprofile --norc`.
-  Commands retain the current directory and variables, and output streams by
-  polling. This is a pipe-based command console: full-screen TTY programs are
-  not supported. Close it to end a running command. At most eight sessions run
-  simultaneously; idle sessions expire after 15 minutes and output is bounded.
+1. In **Sandboxes**, click **Create sandbox**.
+2. Give it a name, such as `my-project`.
+3. Choose a coding agent, or **Pure shell (Bash)** for a general-purpose environment.
+4. Optionally add workspace mounts: one absolute path on your machine per line.
+   For example, `/Users/you/projects/my-project`. Mounts are writable by default;
+   append `:ro` for read-only access. Leave this field empty for no mounts.
+5. Click **Create sandbox**. The first creation may take longer while Docker
+   downloads the environment.
+6. Click the sandbox's name to open its tools. In **Terminal**, click
+   **Open terminal**, enter `pwd`, and click **Run command**.
 
-File inspection, disk scans, port publishing and opening a console start stopped
-sandboxes, as `sbx exec`/`sbx ports` do. Filesystem inspection assumes the standard
-Linux GNU utilities provided by the shell/agent templates (`find`, `head`, `stat`,
-`base64`, `sort`, `du`, `df`, `bash`). Unsupported custom images return CLI errors.
+Use **Refresh** to reload the list after changes made outside Cockpit. You can
+stop or delete sandboxes from the list; both actions ask for confirmation.
+Stopping keeps the sandbox for later use. Deleting removes it.
 
-The server blocks cross-origin requests and requires the Cockpit request header
-for every API operation except health. This protects inspection requests that
-can start sandboxes, too. To inspect the API manually:
+## Find your way around
 
-```sh
-curl -H 'X-Cockpit-Request: 1' http://127.0.0.1:9876/api/sandboxes
-```
+| Where                    | What you can do                                                                                                                           |
+| ------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------- |
+| **Sandboxes**            | See environments, create new ones, stop them, or delete them.                                                                             |
+| **Templates**            | Save a sandbox as a reusable starting point, create from a saved template, or delete a template.                                          |
+| **Secrets**              | Manage service and registry credentials, and custom secrets from values or 1Password/AWS Secrets Manager references.                      |
+| Sandbox → **Ports**      | Publish a sandbox service to your machine or remove a published port. Leave the host port empty to choose an available one automatically. |
+| Sandbox → **Files**      | Browse folders and open text files in a scrollable viewer.                                                                                |
+| Sandbox → **Disk usage** | See free space and the largest folders. Enter a folder's path to inspect it more closely.                                                 |
+| Sandbox → **Terminal**   | Run Bash commands in a session that remembers your working directory and variables.                                                       |
 
-## Quality gates and tests
+### Reuse an environment
 
-```sh
-npx playwright install chromium
-npm run check
-```
+Install the tools you need in a sandbox, then stop it. In **Templates**, click
+**Save template**, select the stopped sandbox, and give the template a reference
+such as `my-tools:v1`. Click **Create sandbox** on its card to reuse it.
 
-`check` runs Oxlint with the sirknigget anti-slop fork, Prettier, TypeScript,
-backend integration tests, the production build, and Playwright browser tests.
-The anti-slop dependency is pinned to a Git revision in `package-lock.json`.
-Complexity limits are cognitive 12, cyclomatic 10, file length 500 and function
-length 50. Linter warnings also fail the gate.
+Templates include changes inside the sandbox's filesystem. Workspace mounts and
+published ports aren't included, so configure those for each new sandbox.
 
-Oxlint loads ESLint Stylistic's `padding-line-between-statements` and
-`lines-between-class-members` rules to enforce readable blank lines. Imports and
-adjacent variable declarations stay grouped; functions, class methods and
-control-flow steps get separation. Apply fixes before Prettier:
+### Connect services and credentials
 
-```sh
-npm run lint:fix
-npm run format
-```
+Use **Ports** to make a service running inside a sandbox available to your
+machine. Choose the sandbox's service port, a host port, and the protocol your
+service uses; TCP is the usual choice for web servers.
 
-Browser tests run a real NestJS server with injected in-memory CLI and terminal
-adapters. They never invoke real sbx. Fixtures fix resource names, statuses,
-paths and content. Screenshot checks use Chromium from the lockfile, a fixed
-1440×1000 viewport, en-US locale, UTC timezone and disabled animations, with zero
-pixel differences allowed. The nine committed baselines were captured on macOS;
-the CI gate runs on macOS. Review and commit platform-specific baselines before
-running screenshot gates on another OS. To intentionally update them:
+In **Secrets**, choose whether a credential applies globally, to a host, or to a
+sandbox. Stored secret values aren't shown back to you. When deleting registry
+credentials for a host, review the confirmation: this also removes the global
+credential for that registry.
 
-```sh
-npm run test:e2e -- --update-snapshots
-```
+## Things to know
 
-The separate live test uses only freshly created resources and records its
-ownership and initial inventory under ignored `.live-test/`. It exercises the
-API, removes only exact owned names, and verifies original sandbox/template/secret
-inventories remain unchanged. It never prunes or resets. Run explicitly:
+- Browsing files, checking disk usage, publishing ports, or opening a terminal
+  can start a stopped sandbox.
+- The file viewer opens UTF-8 text files up to 1 MiB. Binary files and symbolic
+  links aren't supported. Folder listings show up to 500 entries.
+- Disk scans show the largest immediate subfolders on the current filesystem.
+  A scan can return partial results if some folders can't be read.
+- The terminal supports Bash commands, but not full-screen interactive programs
+  such as `vim` or `top`. Close the terminal to end a running command. Sessions
+  expire after 15 minutes without input.
+- File and disk tools work with the standard Linux utilities in the built-in
+  sandbox environments. Custom templates may need those utilities installed.
 
-```sh
-npm run test:live
-# Optional: read an already cached base image without pulling or modifying it.
-COCKPIT_TEST_BASE_TEMPLATE=repository:tag npm run test:live
-```
+## Troubleshooting
 
-Live tests require OS keychain access for the temporary sandbox-scoped dummy
-secret. They are intentionally excluded from CI and the default quality gate.
-If interrupted, use the recorded ownership file to clean up only the named test
-resources; preserve all pre-existing resources.
-
-## Local documentation
-
-`docs/docker-sandboxes/` already contains 198 original Markdown pages: 79 Docker
-Sandbox guides and subsections plus 119 linked sbx CLI reference pages. The source
-manifest records each URL. The downloader discovers pages from Docker's sitemap
-and fetches only `.md` page bodies. Run `npm run docs:fetch` to refresh them.
-`docs/sbx-help/` contains help captured from the installed CLI. `AGENTS.md`
-documents how to use these sources and the strict live-testing rules.
-
-See `TASKS.md` for the five verified vertical slices and their test evidence.
+| Problem                                                     | Try this                                                                                                                             |
+| ----------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
+| Cockpit can't find `sbx`                                    | Run `sbx --help` in the same terminal used to start Cockpit. Make sure the CLI is installed and on your PATH, then restart Cockpit.  |
+| Docker reports an unavailable service or a download failure | Check that Docker Sandboxes is running and that your network can reach the image registry. The app displays the CLI's error message. |
+| Port 9876 is already in use                                 | Start with `npm start -- --port 9880` and open that address instead.                                                                 |
+| A sandbox changed elsewhere but the list looks outdated     | Click **Refresh**.                                                                                                                   |
+| A command timed out                                         | Refresh and check the sandbox before retrying; the operation may already have taken effect.                                          |

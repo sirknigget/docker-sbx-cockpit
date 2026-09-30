@@ -55,3 +55,9 @@ class-member spacing rules. All source was autofixed, with no non-blank-line
 source changes. `npm run lint:fix` applies spacing; Prettier retains it. The full
 quality gate passed with the unchanged anti-slop limits, 53 backend/CLI tests,
 17 browser tests and all nine exact screenshot baselines.
+
+Documentation follow-up complete: README now covers human installation, first
+sandbox creation, product workflows, limits and troubleshooting. AGENTS.md holds
+the project map, development and testing commands, CLI integration context and
+resource ownership rules. The full quality gate passed; application code and
+screenshot baselines are unchanged.
