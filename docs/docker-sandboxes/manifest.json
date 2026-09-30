@@ -1,5 +1,5 @@
 {
-  "fetched_at": "2026-09-30T14:21:20.601122+00:00",
+  "fetched_at": "2026-09-30T14:39:49.629798+00:00",
   "pages": [
     {
       "source": "https://docs.docker.com/ai/sandboxes.md",
@@ -316,6 +316,482 @@
     {
       "source": "https://docs.docker.com/ai/sandboxes/workflows/git.md",
       "file": "workflows/git.md"
+    },
+    {
+      "source": "https://docs.docker.com/reference/cli/sbx.md",
+      "file": "cli/index.md"
+    },
+    {
+      "source": "https://docs.docker.com/reference/cli/sbx/attach.md",
+      "file": "cli/attach.md"
+    },
+    {
+      "source": "https://docs.docker.com/reference/cli/sbx/completion.md",
+      "file": "cli/completion.md"
+    },
+    {
+      "source": "https://docs.docker.com/reference/cli/sbx/completion/bash.md",
+      "file": "cli/completion/bash.md"
+    },
+    {
+      "source": "https://docs.docker.com/reference/cli/sbx/completion/fish.md",
+      "file": "cli/completion/fish.md"
+    },
+    {
+      "source": "https://docs.docker.com/reference/cli/sbx/completion/powershell.md",
+      "file": "cli/completion/powershell.md"
+    },
+    {
+      "source": "https://docs.docker.com/reference/cli/sbx/completion/zsh.md",
+      "file": "cli/completion/zsh.md"
+    },
+    {
+      "source": "https://docs.docker.com/reference/cli/sbx/cp.md",
+      "file": "cli/cp.md"
+    },
+    {
+      "source": "https://docs.docker.com/reference/cli/sbx/create.md",
+      "file": "cli/create.md"
+    },
+    {
+      "source": "https://docs.docker.com/reference/cli/sbx/create/claude.md",
+      "file": "cli/create/claude.md"
+    },
+    {
+      "source": "https://docs.docker.com/reference/cli/sbx/create/codex.md",
+      "file": "cli/create/codex.md"
+    },
+    {
+      "source": "https://docs.docker.com/reference/cli/sbx/create/cursor.md",
+      "file": "cli/create/cursor.md"
+    },
+    {
+      "source": "https://docs.docker.com/reference/cli/sbx/create/devin.md",
+      "file": "cli/create/devin.md"
+    },
+    {
+      "source": "https://docs.docker.com/reference/cli/sbx/create/docker-agent.md",
+      "file": "cli/create/docker-agent.md"
+    },
+    {
+      "source": "https://docs.docker.com/reference/cli/sbx/create/gemini.md",
+      "file": "cli/create/gemini.md"
+    },
+    {
+      "source": "https://docs.docker.com/reference/cli/sbx/create/opencode.md",
+      "file": "cli/create/opencode.md"
+    },
+    {
+      "source": "https://docs.docker.com/reference/cli/sbx/create/shell.md",
+      "file": "cli/create/shell.md"
+    },
+    {
+      "source": "https://docs.docker.com/reference/cli/sbx/daemon.md",
+      "file": "cli/daemon.md"
+    },
+    {
+      "source": "https://docs.docker.com/reference/cli/sbx/daemon/log-level.md",
+      "file": "cli/daemon/log-level.md"
+    },
+    {
+      "source": "https://docs.docker.com/reference/cli/sbx/daemon/log-level/set.md",
+      "file": "cli/daemon/log-level/set.md"
+    },
+    {
+      "source": "https://docs.docker.com/reference/cli/sbx/daemon/restart.md",
+      "file": "cli/daemon/restart.md"
+    },
+    {
+      "source": "https://docs.docker.com/reference/cli/sbx/daemon/start.md",
+      "file": "cli/daemon/start.md"
+    },
+    {
+      "source": "https://docs.docker.com/reference/cli/sbx/daemon/status.md",
+      "file": "cli/daemon/status.md"
+    },
+    {
+      "source": "https://docs.docker.com/reference/cli/sbx/daemon/stop.md",
+      "file": "cli/daemon/stop.md"
+    },
+    {
+      "source": "https://docs.docker.com/reference/cli/sbx/diagnose.md",
+      "file": "cli/diagnose.md"
+    },
+    {
+      "source": "https://docs.docker.com/reference/cli/sbx/env.md",
+      "file": "cli/env.md"
+    },
+    {
+      "source": "https://docs.docker.com/reference/cli/sbx/env/create.md",
+      "file": "cli/env/create.md"
+    },
+    {
+      "source": "https://docs.docker.com/reference/cli/sbx/env/exec.md",
+      "file": "cli/env/exec.md"
+    },
+    {
+      "source": "https://docs.docker.com/reference/cli/sbx/env/plan.md",
+      "file": "cli/env/plan.md"
+    },
+    {
+      "source": "https://docs.docker.com/reference/cli/sbx/env/rm.md",
+      "file": "cli/env/rm.md"
+    },
+    {
+      "source": "https://docs.docker.com/reference/cli/sbx/env/run.md",
+      "file": "cli/env/run.md"
+    },
+    {
+      "source": "https://docs.docker.com/reference/cli/sbx/exec.md",
+      "file": "cli/exec.md"
+    },
+    {
+      "source": "https://docs.docker.com/reference/cli/sbx/kit.md",
+      "file": "cli/kit.md"
+    },
+    {
+      "source": "https://docs.docker.com/reference/cli/sbx/kit/add.md",
+      "file": "cli/kit/add.md"
+    },
+    {
+      "source": "https://docs.docker.com/reference/cli/sbx/kit/builder.md",
+      "file": "cli/kit/builder.md"
+    },
+    {
+      "source": "https://docs.docker.com/reference/cli/sbx/kit/builder/history.md",
+      "file": "cli/kit/builder/history.md"
+    },
+    {
+      "source": "https://docs.docker.com/reference/cli/sbx/kit/builder/history/export.md",
+      "file": "cli/kit/builder/history/export.md"
+    },
+    {
+      "source": "https://docs.docker.com/reference/cli/sbx/kit/builder/history/inspect.md",
+      "file": "cli/kit/builder/history/inspect.md"
+    },
+    {
+      "source": "https://docs.docker.com/reference/cli/sbx/kit/builder/history/logs.md",
+      "file": "cli/kit/builder/history/logs.md"
+    },
+    {
+      "source": "https://docs.docker.com/reference/cli/sbx/kit/builder/history/ls.md",
+      "file": "cli/kit/builder/history/ls.md"
+    },
+    {
+      "source": "https://docs.docker.com/reference/cli/sbx/kit/builder/history/rm.md",
+      "file": "cli/kit/builder/history/rm.md"
+    },
+    {
+      "source": "https://docs.docker.com/reference/cli/sbx/kit/builder/history/trace.md",
+      "file": "cli/kit/builder/history/trace.md"
+    },
+    {
+      "source": "https://docs.docker.com/reference/cli/sbx/kit/builder/rm.md",
+      "file": "cli/kit/builder/rm.md"
+    },
+    {
+      "source": "https://docs.docker.com/reference/cli/sbx/kit/builder/status.md",
+      "file": "cli/kit/builder/status.md"
+    },
+    {
+      "source": "https://docs.docker.com/reference/cli/sbx/kit/inspect.md",
+      "file": "cli/kit/inspect.md"
+    },
+    {
+      "source": "https://docs.docker.com/reference/cli/sbx/kit/pack.md",
+      "file": "cli/kit/pack.md"
+    },
+    {
+      "source": "https://docs.docker.com/reference/cli/sbx/kit/provenance.md",
+      "file": "cli/kit/provenance.md"
+    },
+    {
+      "source": "https://docs.docker.com/reference/cli/sbx/kit/pull.md",
+      "file": "cli/kit/pull.md"
+    },
+    {
+      "source": "https://docs.docker.com/reference/cli/sbx/kit/push.md",
+      "file": "cli/kit/push.md"
+    },
+    {
+      "source": "https://docs.docker.com/reference/cli/sbx/kit/sign.md",
+      "file": "cli/kit/sign.md"
+    },
+    {
+      "source": "https://docs.docker.com/reference/cli/sbx/kit/validate.md",
+      "file": "cli/kit/validate.md"
+    },
+    {
+      "source": "https://docs.docker.com/reference/cli/sbx/kit/verify.md",
+      "file": "cli/kit/verify.md"
+    },
+    {
+      "source": "https://docs.docker.com/reference/cli/sbx/login.md",
+      "file": "cli/login.md"
+    },
+    {
+      "source": "https://docs.docker.com/reference/cli/sbx/logout.md",
+      "file": "cli/logout.md"
+    },
+    {
+      "source": "https://docs.docker.com/reference/cli/sbx/ls.md",
+      "file": "cli/ls.md"
+    },
+    {
+      "source": "https://docs.docker.com/reference/cli/sbx/mcp.md",
+      "file": "cli/mcp.md"
+    },
+    {
+      "source": "https://docs.docker.com/reference/cli/sbx/mcp/add.md",
+      "file": "cli/mcp/add.md"
+    },
+    {
+      "source": "https://docs.docker.com/reference/cli/sbx/mcp/auth.md",
+      "file": "cli/mcp/auth.md"
+    },
+    {
+      "source": "https://docs.docker.com/reference/cli/sbx/mcp/auth/rm.md",
+      "file": "cli/mcp/auth/rm.md"
+    },
+    {
+      "source": "https://docs.docker.com/reference/cli/sbx/mcp/auth/status.md",
+      "file": "cli/mcp/auth/status.md"
+    },
+    {
+      "source": "https://docs.docker.com/reference/cli/sbx/mcp/inspect.md",
+      "file": "cli/mcp/inspect.md"
+    },
+    {
+      "source": "https://docs.docker.com/reference/cli/sbx/mcp/load.md",
+      "file": "cli/mcp/load.md"
+    },
+    {
+      "source": "https://docs.docker.com/reference/cli/sbx/mcp/ls.md",
+      "file": "cli/mcp/ls.md"
+    },
+    {
+      "source": "https://docs.docker.com/reference/cli/sbx/mcp/rm.md",
+      "file": "cli/mcp/rm.md"
+    },
+    {
+      "source": "https://docs.docker.com/reference/cli/sbx/move.md",
+      "file": "cli/move.md"
+    },
+    {
+      "source": "https://docs.docker.com/reference/cli/sbx/policy.md",
+      "file": "cli/policy.md"
+    },
+    {
+      "source": "https://docs.docker.com/reference/cli/sbx/policy/allow.md",
+      "file": "cli/policy/allow.md"
+    },
+    {
+      "source": "https://docs.docker.com/reference/cli/sbx/policy/allow/network.md",
+      "file": "cli/policy/allow/network.md"
+    },
+    {
+      "source": "https://docs.docker.com/reference/cli/sbx/policy/check.md",
+      "file": "cli/policy/check.md"
+    },
+    {
+      "source": "https://docs.docker.com/reference/cli/sbx/policy/check/network.md",
+      "file": "cli/policy/check/network.md"
+    },
+    {
+      "source": "https://docs.docker.com/reference/cli/sbx/policy/deny.md",
+      "file": "cli/policy/deny.md"
+    },
+    {
+      "source": "https://docs.docker.com/reference/cli/sbx/policy/deny/network.md",
+      "file": "cli/policy/deny/network.md"
+    },
+    {
+      "source": "https://docs.docker.com/reference/cli/sbx/policy/init.md",
+      "file": "cli/policy/init.md"
+    },
+    {
+      "source": "https://docs.docker.com/reference/cli/sbx/policy/inspect.md",
+      "file": "cli/policy/inspect.md"
+    },
+    {
+      "source": "https://docs.docker.com/reference/cli/sbx/policy/log.md",
+      "file": "cli/policy/log.md"
+    },
+    {
+      "source": "https://docs.docker.com/reference/cli/sbx/policy/ls.md",
+      "file": "cli/policy/ls.md"
+    },
+    {
+      "source": "https://docs.docker.com/reference/cli/sbx/policy/reset.md",
+      "file": "cli/policy/reset.md"
+    },
+    {
+      "source": "https://docs.docker.com/reference/cli/sbx/policy/rm.md",
+      "file": "cli/policy/rm.md"
+    },
+    {
+      "source": "https://docs.docker.com/reference/cli/sbx/policy/rm/network.md",
+      "file": "cli/policy/rm/network.md"
+    },
+    {
+      "source": "https://docs.docker.com/reference/cli/sbx/ports.md",
+      "file": "cli/ports.md"
+    },
+    {
+      "source": "https://docs.docker.com/reference/cli/sbx/prune.md",
+      "file": "cli/prune.md"
+    },
+    {
+      "source": "https://docs.docker.com/reference/cli/sbx/reset.md",
+      "file": "cli/reset.md"
+    },
+    {
+      "source": "https://docs.docker.com/reference/cli/sbx/rm.md",
+      "file": "cli/rm.md"
+    },
+    {
+      "source": "https://docs.docker.com/reference/cli/sbx/run.md",
+      "file": "cli/run.md"
+    },
+    {
+      "source": "https://docs.docker.com/reference/cli/sbx/secret.md",
+      "file": "cli/secret.md"
+    },
+    {
+      "source": "https://docs.docker.com/reference/cli/sbx/secret/import.md",
+      "file": "cli/secret/import.md"
+    },
+    {
+      "source": "https://docs.docker.com/reference/cli/sbx/secret/ls.md",
+      "file": "cli/secret/ls.md"
+    },
+    {
+      "source": "https://docs.docker.com/reference/cli/sbx/secret/rm.md",
+      "file": "cli/secret/rm.md"
+    },
+    {
+      "source": "https://docs.docker.com/reference/cli/sbx/secret/set-custom.md",
+      "file": "cli/secret/set-custom.md"
+    },
+    {
+      "source": "https://docs.docker.com/reference/cli/sbx/secret/set.md",
+      "file": "cli/secret/set.md"
+    },
+    {
+      "source": "https://docs.docker.com/reference/cli/sbx/settings.md",
+      "file": "cli/settings.md"
+    },
+    {
+      "source": "https://docs.docker.com/reference/cli/sbx/settings/get.md",
+      "file": "cli/settings/get.md"
+    },
+    {
+      "source": "https://docs.docker.com/reference/cli/sbx/settings/list.md",
+      "file": "cli/settings/list.md"
+    },
+    {
+      "source": "https://docs.docker.com/reference/cli/sbx/settings/set.md",
+      "file": "cli/settings/set.md"
+    },
+    {
+      "source": "https://docs.docker.com/reference/cli/sbx/settings/unset.md",
+      "file": "cli/settings/unset.md"
+    },
+    {
+      "source": "https://docs.docker.com/reference/cli/sbx/setup.md",
+      "file": "cli/setup.md"
+    },
+    {
+      "source": "https://docs.docker.com/reference/cli/sbx/setup/ssh.md",
+      "file": "cli/setup/ssh.md"
+    },
+    {
+      "source": "https://docs.docker.com/reference/cli/sbx/setup/ssh/remove.md",
+      "file": "cli/setup/ssh/remove.md"
+    },
+    {
+      "source": "https://docs.docker.com/reference/cli/sbx/skills.md",
+      "file": "cli/skills.md"
+    },
+    {
+      "source": "https://docs.docker.com/reference/cli/sbx/skills/add.md",
+      "file": "cli/skills/add.md"
+    },
+    {
+      "source": "https://docs.docker.com/reference/cli/sbx/skills/import.md",
+      "file": "cli/skills/import.md"
+    },
+    {
+      "source": "https://docs.docker.com/reference/cli/sbx/skills/ls.md",
+      "file": "cli/skills/ls.md"
+    },
+    {
+      "source": "https://docs.docker.com/reference/cli/sbx/skills/rm.md",
+      "file": "cli/skills/rm.md"
+    },
+    {
+      "source": "https://docs.docker.com/reference/cli/sbx/skills/update.md",
+      "file": "cli/skills/update.md"
+    },
+    {
+      "source": "https://docs.docker.com/reference/cli/sbx/stop.md",
+      "file": "cli/stop.md"
+    },
+    {
+      "source": "https://docs.docker.com/reference/cli/sbx/template.md",
+      "file": "cli/template.md"
+    },
+    {
+      "source": "https://docs.docker.com/reference/cli/sbx/template/inspect.md",
+      "file": "cli/template/inspect.md"
+    },
+    {
+      "source": "https://docs.docker.com/reference/cli/sbx/template/load.md",
+      "file": "cli/template/load.md"
+    },
+    {
+      "source": "https://docs.docker.com/reference/cli/sbx/template/ls.md",
+      "file": "cli/template/ls.md"
+    },
+    {
+      "source": "https://docs.docker.com/reference/cli/sbx/template/rm.md",
+      "file": "cli/template/rm.md"
+    },
+    {
+      "source": "https://docs.docker.com/reference/cli/sbx/template/save.md",
+      "file": "cli/template/save.md"
+    },
+    {
+      "source": "https://docs.docker.com/reference/cli/sbx/ttl.md",
+      "file": "cli/ttl.md"
+    },
+    {
+      "source": "https://docs.docker.com/reference/cli/sbx/tui.md",
+      "file": "cli/tui.md"
+    },
+    {
+      "source": "https://docs.docker.com/reference/cli/sbx/version.md",
+      "file": "cli/version.md"
+    },
+    {
+      "source": "https://docs.docker.com/reference/cli/sbx/volume.md",
+      "file": "cli/volume.md"
+    },
+    {
+      "source": "https://docs.docker.com/reference/cli/sbx/volume/create.md",
+      "file": "cli/volume/create.md"
+    },
+    {
+      "source": "https://docs.docker.com/reference/cli/sbx/volume/inspect.md",
+      "file": "cli/volume/inspect.md"
+    },
+    {
+      "source": "https://docs.docker.com/reference/cli/sbx/volume/ls.md",
+      "file": "cli/volume/ls.md"
+    },
+    {
+      "source": "https://docs.docker.com/reference/cli/sbx/volume/rm.md",
+      "file": "cli/volume/rm.md"
     }
   ]
 }

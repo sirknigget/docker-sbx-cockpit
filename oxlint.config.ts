@@ -2,10 +2,10 @@ import { defineConfig } from 'oxlint';
 export default defineConfig({
   jsPlugins: [{ name: 'anti-slop', specifier: 'oxlint-plugin-anti-slop' }],
   rules: {
-    'anti-slop/cognitive-complexity': ['error', 15],
-    'anti-slop/cyclomatic-complexity': ['error', { threshold: 12 }],
+    'anti-slop/cognitive-complexity': ['error', 12],
+    'anti-slop/cyclomatic-complexity': ['error', { threshold: 10 }],
     'anti-slop/max-lines': ['error', { maximum: 500 }],
-    'anti-slop/max-lines-per-function': ['error', { maximum: 80 }],
+    'anti-slop/max-lines-per-function': ['error', { maximum: 50 }],
     'anti-slop/no-chained-type-assertions': 'error',
     'anti-slop/no-conditional-empty-object-spread': 'error',
     'anti-slop/no-known-value-widening': 'error',

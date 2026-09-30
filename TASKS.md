@@ -11,6 +11,10 @@
 5. Release validation: complete deterministic screenshots and safe live tests, CI and README.
    Run all quality gates, live-test only owned temporary resources, commit and push.
 
-Progress: slice 1 complete. All 79 Markdown pages fetched; CLI help captured.
+Progress: slice 1 complete. All 198 Markdown pages fetched (79 guides + 119 CLI reference pages); CLI help captured.
 Oxlint/anti-slop, Prettier, typecheck, CLI tests, production build and live health
 endpoint on custom port 19876 passed.
+
+Slice 2 complete: lifecycle Nest endpoints and React UI. Six backend/security
+tests and five fixture-backed browser tests pass, including two exact screenshot
+baselines. New temporary sandbox creation verified live; existing resources untouched.
