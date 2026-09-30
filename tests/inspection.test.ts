@@ -16,14 +16,19 @@ import {
   TerminalTransport,
   type TerminalProcess,
 } from '../server/inspection-terminal-transport';
+
 class InspectionRunner extends Runner {
   readonly calls: string[][] = [];
+
   async run(args: string[]) {
     this.calls.push(args);
+
     if (args[4] === directoryScript)
       return ['d', 'src', '4096', 'f', 'quote" $HOME.txt', '20', ''].join('\0');
+
     if (args[4] === fileScript)
       return Buffer.from('hello\n').toString('base64');
+
     return [
       '4096\t/',
       '',
@@ -32,11 +37,13 @@ class InspectionRunner extends Runner {
     ].join('\0');
   }
 }
+
 class TestTransport extends TerminalTransport {
   readonly writes: string[] = [];
   closed = 0;
   output: (text: string) => void = () => {};
   exit: (code: number | null) => void = () => {};
+
   start(
     _name: string,
     output: (text: string) => void,
@@ -44,6 +51,7 @@ class TestTransport extends TerminalTransport {
   ): TerminalProcess {
     this.output = output;
     this.exit = exit;
+
     return {
       write: (input) => {
         this.writes.push(input);
@@ -56,12 +64,14 @@ class TestTransport extends TerminalTransport {
     };
   }
 }
+
 afterEach(() => vi.useRealTimers());
 describe('Sandbox inspection', () => {
   test('passes hostile paths as single positional arguments to fixed scripts', async () => {
     const runner = new InspectionRunner();
     const service = new Inspection(runner);
     const path = '/workspace/quote"; $(touch injected);\nΔ';
+
     await service.directory('owned-test', path);
     await service.file('owned-test', path);
     await service.disk('owned-test', path);
@@ -106,6 +116,7 @@ describe('Sandbox inspection', () => {
     const records = Array.from({ length: 501 }, (_, index) =>
       ['f', `file-${index}`, '1', ''].join('\0'),
     ).join('');
+
     expect(parseDirectory('/', records)).toMatchObject({
       truncated: true,
       entries: expect.any(Array),
@@ -135,6 +146,7 @@ describe('Sandbox inspection', () => {
       '1',
       'Size Used Avail Use% Mounted on\n10000 4000 6000 40% /mounted folder\n',
     ].join('\0');
+
     expect(parseDisk('/data', output)).toEqual({
       path: '/data',
       entries: [
@@ -156,8 +168,10 @@ describe('Persistent Bash sessions', () => {
   test('retains session input, incrementally streams output and restricts sandbox ownership', () => {
     const transport = new TestTransport();
     const service = new Terminals(transport);
+
     try {
       const session = service.start('owned-test');
+
       transport.output('ready\n');
       expect(service.read('owned-test', session.id).output).toBe('ready\n');
       service.send('owned-test', session.id, { input: 'cd /workspace\npwd\n' });
@@ -176,13 +190,16 @@ describe('Persistent Bash sessions', () => {
     } finally {
       service.onModuleDestroy();
     }
+
     expect(transport.closed).toBe(1);
   });
   test('bounds output and frees closed sessions', () => {
     const transport = new TestTransport();
     const service = new Terminals(transport);
+
     try {
       const session = service.start('owned-test');
+
       transport.output('x'.repeat(300000));
       expect(service.read('owned-test', session.id)).toMatchObject({
         dropped: true,
@@ -199,8 +216,10 @@ describe('Persistent Bash sessions', () => {
   });
   test('expires inactive sessions and enforces the eight-session limit', () => {
     vi.useFakeTimers();
+
     const transport = new TestTransport();
     const service = new Terminals(transport);
+
     try {
       for (let index = 0; index < 8; index += 1) service.start('owned-test');
       expect(() => service.start('owned-test')).toThrow('maximum 8');
@@ -212,6 +231,7 @@ describe('Persistent Bash sessions', () => {
     }
   });
 });
+
 class EarlyExitTransport extends TestTransport {
   start(
     name: string,
@@ -219,18 +239,23 @@ class EarlyExitTransport extends TestTransport {
     exit: (code: number | null) => void,
   ): TerminalProcess {
     const process = super.start(name, output, exit);
+
     output('Bash startup failed\n');
     exit(17);
+
     return process;
   }
 }
+
 class ThrowingTransport extends TerminalTransport {
   start(): TerminalProcess {
     throw new Error('Spawn rejected');
   }
 }
+
 test('preserves output and exit reported synchronously during terminal creation', () => {
   const service = new Terminals(new EarlyExitTransport());
+
   try {
     expect(service.start('owned-test')).toMatchObject({
       output: 'Bash startup failed\n',
@@ -243,6 +268,7 @@ test('preserves output and exit reported synchronously during terminal creation'
 });
 test('failed terminal creation does not consume session capacity', () => {
   const service = new Terminals(new ThrowingTransport());
+
   try {
     for (let index = 0; index < 9; index += 1)
       expect(() => service.start('owned-test')).toThrow(

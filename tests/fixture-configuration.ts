@@ -4,9 +4,12 @@ import { BadGatewayException } from '@nestjs/common';
 
 function secretScope(args: string[]) {
   const index = args.indexOf('--sandbox');
+
   if (index >= 0) return args[index + 1];
+
   if (args.includes('--registry') && !args.includes('--all-sandboxes'))
     return 'host';
+
   return 'global';
 }
 
@@ -28,34 +31,42 @@ export class FixtureConfiguration {
 
   template(args: string[], sandboxes: Sandbox[]) {
     if (args[1] === 'ls') return JSON.stringify({ images: this.templates });
+
     if (args[1] === 'save') {
       if (sandboxes.find((item) => item.name === args[2])?.status !== 'stopped')
         throw new BadGatewayException(
           'Stop the sandbox before saving a template',
         );
+
       const [repository, tag = 'latest'] = args[3].split(':');
+
       this.templates.push({
         repository,
         tag,
         id: 'fixture-saved',
         size: 134217728,
       });
+
       return 'Template saved';
     }
+
     this.templates = this.templates.filter(
       (item) => `${item.repository}:${item.tag}` !== args[3],
     );
+
     return 'Template removed';
   }
 
   secret(args: string[]) {
     if (args[1] === 'ls') return JSON.stringify(this.secrets);
+
     const registryIndex = args.indexOf('--registry');
     const scope = secretScope(args);
     const name =
       registryIndex < 0
         ? args[args[1] === 'rm' ? 3 : 2]
         : args[registryIndex + 1];
+
     if (args[1] === 'set') {
       this.secrets.secrets.push({
         scope,
@@ -73,21 +84,26 @@ export class FixtureConfiguration {
       this.secrets.secrets = this.secrets.secrets.filter(
         (item) => item.name !== name,
       );
+
       const placeholderIndex = args.indexOf('--placeholder');
+
       if (placeholderIndex >= 0)
         this.secrets.custom_secrets = this.secrets.custom_secrets.filter(
           (item) => item.placeholder !== args[placeholderIndex + 1],
         );
     }
+
     return 'Secret updated';
   }
 
   ports(args: string[], sandbox: Sandbox) {
     if (args[2] === '--json') return JSON.stringify(sandbox.ports);
+
     const [mapping, protocol] = args[3].split('/');
     const parts = mapping.split(':');
     const sandboxPort = Number(parts.pop());
     const hostPort = Number(parts.pop() ?? sandboxPort);
+
     if (args[2] === '--publish') {
       sandbox.ports.push({
         host_ip: parts.join(':') || '127.0.0.1',
@@ -100,6 +116,7 @@ export class FixtureConfiguration {
         (port) => port.host_port !== hostPort,
       );
     }
+
     return 'Ports updated';
   }
 }

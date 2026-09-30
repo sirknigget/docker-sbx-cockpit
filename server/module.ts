@@ -10,6 +10,7 @@ import {
   TerminalTransport,
   SbxTerminalTransport,
 } from './inspection-terminal-transport';
+
 @Controller('api')
 class HealthController {
   @Get('health') health() {

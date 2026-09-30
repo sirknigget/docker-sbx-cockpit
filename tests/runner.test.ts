@@ -3,6 +3,7 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { afterEach, beforeEach, expect, test } from 'vitest';
 import { SbxRunner } from '../server/runner';
+
 const executable = `#!${process.execPath}
 const args = process.argv.slice(2);
 const command = args[0];
@@ -28,9 +29,12 @@ if (command === 'arguments') {
 `;
 let directory = '';
 let previousPath: string | undefined;
+
 beforeEach(async () => {
   directory = await mkdtemp(join(tmpdir(), 'sbx-runner-fixture-'));
+
   const path = join(directory, 'sbx');
+
   await writeFile(path, executable);
   await chmod(path, 0o700);
   previousPath = process.env.PATH;
@@ -51,6 +55,7 @@ test('arguments are passed literally without host-shell interpretation', async (
     'fixture-box',
   ];
   const output = await new SbxRunner().run(args, 'fixture-value\n');
+
   expect(JSON.parse(output)).toEqual({ args, input: 'fixture-value\n' });
 });
 test('successful commands return stdout without stderr contamination', async () => {

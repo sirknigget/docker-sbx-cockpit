@@ -1,7 +1,49 @@
 import { defineConfig } from 'oxlint';
+
 export default defineConfig({
-  jsPlugins: [{ name: 'anti-slop', specifier: 'oxlint-plugin-anti-slop' }],
+  jsPlugins: [
+    { name: 'anti-slop', specifier: 'oxlint-plugin-anti-slop' },
+    { name: '@stylistic', specifier: '@stylistic/eslint-plugin' },
+  ],
   rules: {
+    '@stylistic/padding-line-between-statements': [
+      'error',
+      { blankLine: 'always', prev: 'import', next: '*' },
+      { blankLine: 'any', prev: 'import', next: 'import' },
+      { blankLine: 'always', prev: '*', next: ['const', 'let', 'var'] },
+      { blankLine: 'always', prev: ['const', 'let', 'var'], next: '*' },
+      {
+        blankLine: 'any',
+        prev: ['const', 'let', 'var'],
+        next: ['const', 'let', 'var'],
+      },
+      {
+        blankLine: 'always',
+        prev: '*',
+        next: ['function', 'class', 'interface', 'type'],
+      },
+      {
+        blankLine: 'always',
+        prev: ['function', 'class', 'interface', 'type'],
+        next: '*',
+      },
+      {
+        blankLine: 'always',
+        prev: '*',
+        next: ['return', 'if', 'for', 'while', 'switch', 'try'],
+      },
+      { blankLine: 'always', prev: 'block-like', next: '*' },
+      { blankLine: 'always', prev: 'export', next: 'export' },
+    ],
+    '@stylistic/lines-between-class-members': [
+      'error',
+      {
+        enforce: [
+          { blankLine: 'always', prev: 'method', next: '*' },
+          { blankLine: 'always', prev: '*', next: 'method' },
+        ],
+      },
+    ],
     'anti-slop/cognitive-complexity': ['error', 12],
     'anti-slop/cyclomatic-complexity': ['error', { threshold: 10 }],
     'anti-slop/max-lines': ['error', { maximum: 500 }],

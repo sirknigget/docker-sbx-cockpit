@@ -5,12 +5,14 @@ import { resultSchema, type Sandbox } from '../shared/contracts';
 import { api } from './api';
 import { Modal } from './ui';
 import './configuration.css';
+
 export function useInventory<T>(path: string, schema: z.ZodType<T>) {
   const [data, setData] = useState<T>();
   const [error, setError] = useState('');
   const [busy, setBusy] = useState(false);
   const refresh = useCallback(async () => {
     setBusy(true);
+
     try {
       setData(await api(path, schema));
       setError('');
@@ -22,24 +24,31 @@ export function useInventory<T>(path: string, schema: z.ZodType<T>) {
       setBusy(false);
     }
   }, [path, schema]);
+
   useEffect(() => {
     void refresh();
   }, [refresh]);
+
   async function mutate(method: string, body: string) {
     setBusy(true);
+
     try {
       await api(path, resultSchema, method, body);
       await refresh();
+
       return true;
     } catch (cause) {
       setError(cause instanceof Error ? cause.message : 'Operation failed');
+
       return false;
     } finally {
       setBusy(false);
     }
   }
+
   return { data, error, busy, refresh, mutate };
 }
+
 interface ConfirmProps {
   title: string;
   description: string;
@@ -47,6 +56,7 @@ interface ConfirmProps {
   onClose: () => void;
   onConfirm: () => void;
 }
+
 export function ConfirmDelete(props: ConfirmProps) {
   return (
     <Modal title={props.title} onClose={props.onClose}>
@@ -66,10 +76,12 @@ export function ConfirmDelete(props: ConfirmProps) {
     </Modal>
   );
 }
+
 interface ScopeProps {
   sandboxes: Sandbox[];
   registry?: boolean;
 }
+
 export function ScopeField(props: ScopeProps) {
   return (
     <label>
@@ -86,12 +98,14 @@ export function ScopeField(props: ScopeProps) {
     </label>
   );
 }
+
 interface StateProps {
   error: string;
   busy: boolean;
   label: string;
   onRefresh: () => void;
 }
+
 export function InventoryState(props: StateProps) {
   return (
     <>

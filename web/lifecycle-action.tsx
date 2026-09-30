@@ -2,10 +2,12 @@ import { useState } from 'react';
 import { resultSchema, type Sandbox } from '../shared/contracts';
 import { api } from './api';
 import { Modal } from './ui';
+
 export interface PendingAction {
   sandbox: Sandbox;
   action: 'stop' | 'delete';
 }
+
 export function LifecycleAction({
   pending,
   onClose,
@@ -17,8 +19,10 @@ export function LifecycleAction({
 }) {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
+
   async function submit() {
     setBusy(true);
+
     try {
       await api(
         `/sandboxes/${encodeURIComponent(pending.sandbox.name)}${pending.action === 'stop' ? '/stop' : ''}`,
@@ -35,6 +39,7 @@ export function LifecycleAction({
       setBusy(false);
     }
   }
+
   return (
     <Modal
       title={`${pending.action === 'delete' ? 'Delete' : 'Stop'} ${pending.sandbox.name}?`}

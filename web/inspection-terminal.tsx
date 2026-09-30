@@ -3,6 +3,7 @@ import { terminalSchema, type TerminalState } from '../shared/inspection';
 import { resultSchema } from '../shared/contracts';
 import { api } from './api';
 import './inspection.css';
+
 export function SandboxTerminal({
   sandbox,
   onStarted,
@@ -18,6 +19,7 @@ export function SandboxTerminal({
   const cursor = useRef(0);
   const viewer = useRef<HTMLPreElement>(null);
   const base = `/sandboxes/${encodeURIComponent(sandbox)}/terminal`;
+
   function append(state: TerminalState) {
     cursor.current = state.cursor;
     setOutput((previous) =>
@@ -27,11 +29,13 @@ export function SandboxTerminal({
     );
     setSession(state);
   }
+
   useEffect(() => {
     viewer.current?.scrollTo(0, viewer.current.scrollHeight);
   }, [output]);
   useEffect(() => {
     if (!session?.active) return;
+
     let cancelled = false;
     let pending = false;
     const timer = window.setInterval(() => {
@@ -44,6 +48,7 @@ export function SandboxTerminal({
         .catch((failure: Error) => {
           if (cancelled) return;
           setError(failure.message);
+
           if (failure.message === 'Terminal session not found')
             setSession(undefined);
         })
@@ -51,6 +56,7 @@ export function SandboxTerminal({
           pending = false;
         });
     }, 500);
+
     return () => {
       cancelled = true;
       window.clearInterval(timer);
@@ -58,6 +64,7 @@ export function SandboxTerminal({
   }, [base, session?.id, session?.active]);
   useEffect(() => {
     const id = session?.id;
+
     return () => {
       if (id)
         void api(`${base}/${id}`, resultSchema, 'DELETE').catch(() => {
@@ -65,11 +72,13 @@ export function SandboxTerminal({
         });
     };
   }, [base, session?.id]);
+
   async function start() {
     setBusy(true);
     setError('');
     setOutput('');
     cursor.current = 0;
+
     try {
       if (session) await api(`${base}/${session.id}`, resultSchema, 'DELETE');
       append(await api(base, terminalSchema, 'POST'));
@@ -82,10 +91,12 @@ export function SandboxTerminal({
       setBusy(false);
     }
   }
+
   async function close() {
     if (!session) return;
     setBusy(true);
     setError('');
+
     try {
       await api(`${base}/${session.id}`, resultSchema, 'DELETE');
       setSession(undefined);
@@ -97,11 +108,14 @@ export function SandboxTerminal({
       setBusy(false);
     }
   }
+
   async function send(event: FormEvent) {
     event.preventDefault();
+
     if (!session || !input) return;
     setBusy(true);
     setError('');
+
     try {
       await api(
         `${base}/${session.id}/input`,
@@ -119,6 +133,7 @@ export function SandboxTerminal({
       setBusy(false);
     }
   }
+
   return (
     <section className="inspection-pane">
       <div className="inspection-heading">

@@ -34,7 +34,9 @@ test('creates pure shell with writable and read-only mounts', async ({
   await page
     .getByRole('button', { name: 'Create sandbox', exact: true })
     .click();
+
   const dialog = page.getByRole('dialog', { name: 'Create sandbox' });
+
   await dialog.getByLabel('Name', { exact: true }).fill('fixture-created');
   await dialog.getByRole('combobox', { name: /Agent/ }).selectOption('shell');
   await dialog
@@ -66,7 +68,9 @@ test('stop and delete require confirmation and update inventory', async ({
   await page
     .getByRole('button', { name: 'Stop atlas-api', exact: true })
     .click();
+
   const stop = page.getByRole('dialog', { name: 'Stop atlas-api?' });
+
   await expect(stop).toBeVisible();
   await stop.getByRole('button', { name: 'Stop sandbox', exact: true }).click();
   await expect(
@@ -75,7 +79,9 @@ test('stop and delete require confirmation and update inventory', async ({
   await page
     .getByRole('button', { name: 'Delete shell-tools', exact: true })
     .click();
+
   const remove = page.getByRole('dialog', { name: 'Delete shell-tools?' });
+
   await expect(
     remove.getByText('This cannot be undone.', { exact: false }),
   ).toBeVisible();
@@ -85,7 +91,9 @@ test('stop and delete require confirmation and update inventory', async ({
   await expect(
     page.getByRole('button', { name: 'shell-tools', exact: true }),
   ).not.toBeVisible();
+
   const commands = await (await request.get('/__fixture/commands')).json();
+
   expect(commands).toContainEqual(['stop', 'atlas-api']);
   expect(commands).toContainEqual(['rm', '--force', 'shell-tools']);
 });
@@ -96,7 +104,9 @@ test('CLI failure stays visible and creation dialog remains editable', async ({
   await page
     .getByRole('button', { name: 'Create sandbox', exact: true })
     .click();
+
   const dialog = page.getByRole('dialog', { name: 'Create sandbox' });
+
   await dialog.getByLabel('Name', { exact: true }).fill('fail-create');
   await dialog
     .getByRole('button', { name: 'Create sandbox', exact: true })

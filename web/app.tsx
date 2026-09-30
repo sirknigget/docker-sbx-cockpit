@@ -10,6 +10,7 @@ import { LifecycleAction, type PendingAction } from './lifecycle-action';
 import { SandboxDetail } from './detail';
 import { Templates } from './templates';
 import { Secrets } from './secrets';
+
 export function App() {
   const inventory = useInventory();
   const [section, setSection] = useState<Section>('sandboxes');
@@ -21,15 +22,18 @@ export function App() {
   const [revision, setRevision] = useState(0);
   const [notice, setNotice] = useState('');
   const [pending, setPending] = useState<PendingAction>();
+
   function navigate(next: Section) {
     setSection(next);
     setSelectedName(undefined);
     setNotice('');
   }
+
   function completed(message: string) {
     setNotice(message);
     void inventory.refresh();
   }
+
   return (
     <Layout
       section={section}
@@ -84,6 +88,7 @@ export function App() {
     </Layout>
   );
 }
+
 interface ContentProps {
   section: Section;
   sandboxes: Sandbox[];
@@ -95,6 +100,7 @@ interface ContentProps {
   onChanged: () => void;
   onAction: (sandbox: Sandbox, action: 'stop' | 'delete') => void;
 }
+
 function Content(props: ContentProps) {
   if (props.selected)
     return (
@@ -104,6 +110,7 @@ function Content(props: ContentProps) {
         onChanged={props.onChanged}
       />
     );
+
   if (props.section === 'sandboxes')
     return (
       <>
@@ -116,6 +123,7 @@ function Content(props: ContentProps) {
         />
       </>
     );
+
   if (props.section === 'templates')
     return (
       <Templates
@@ -124,5 +132,6 @@ function Content(props: ContentProps) {
         onCreate={props.onCreate}
       />
     );
+
   return <Secrets key={props.revision} sandboxes={props.sandboxes} />;
 }

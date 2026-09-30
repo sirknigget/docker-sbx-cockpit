@@ -4,11 +4,13 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { expect, test } from 'vitest';
 import { directoryScript, fileScript } from '../server/inspection-scripts';
+
 function executable(directory: string, name: string, script: string) {
   writeFileSync(join(directory, name), `#!/bin/sh\n${script}\n`, {
     mode: 0o755,
   });
 }
+
 function execute(script: string, directory: string, path: string) {
   return execFileSync('bash', ['-c', script, '--', path], {
     encoding: 'utf8',
@@ -16,8 +18,10 @@ function execute(script: string, directory: string, path: string) {
     stdio: 'pipe',
   });
 }
+
 test('directory inspection propagates permission failure through the output-limiting pipeline', () => {
   const directory = mkdtempSync(join(tmpdir(), 'cockpit-script-test-'));
+
   try {
     executable(directory, 'find', "printf 'Permission denied' >&2; exit 1");
     executable(directory, 'head', 'cat');
@@ -33,6 +37,7 @@ test('directory inspection propagates permission failure through the output-limi
 test('file inspection propagates read failures and rejects symlinks/nonregular paths', () => {
   const directory = mkdtempSync(join(tmpdir(), 'cockpit-file-test-'));
   const file = join(directory, 'owned-file');
+
   try {
     writeFileSync(file, 'owned contents');
     executable(directory, 'stat', 'printf 14');
@@ -40,10 +45,14 @@ test('file inspection propagates read failures and rejects symlinks/nonregular p
     executable(directory, 'base64', 'cat');
     expect(() => execute(fileScript, directory, file)).toThrow();
     expect(() => execute(fileScript, directory, directory)).toThrow();
+
     const link = join(directory, 'owned-link');
+
     symlinkSync(file, link);
     expect(() => execute(fileScript, directory, link)).toThrow();
+
     const fifo = join(directory, 'owned-fifo');
+
     execFileSync('mkfifo', [fifo]);
     expect(() => execute(fileScript, directory, fifo)).toThrow();
   } finally {

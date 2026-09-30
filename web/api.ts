@@ -1,4 +1,5 @@
 import { z } from 'zod';
+
 export async function api<T>(
   path: string,
   schema: z.ZodType<T>,
@@ -14,8 +15,10 @@ export async function api<T>(
       ? await fetch(`/api${path}`, { headers })
       : await mutation(path, method, body);
   const data = await response.json();
+
   if (!response.ok)
     throw new Error(z.object({ message: z.string() }).parse(data).message);
+
   return schema.parse(data);
 }
 

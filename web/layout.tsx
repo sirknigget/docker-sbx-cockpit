@@ -1,6 +1,8 @@
 import { Box, Layers, KeyRound, Container } from 'lucide-react';
 import type { ReactNode } from 'react';
+
 export type Section = 'sandboxes' | 'templates' | 'secrets';
+
 export function Layout({
   section,
   count,
@@ -36,6 +38,7 @@ export function Layout({
     </div>
   );
 }
+
 function Sidebar({
   section,
   count,

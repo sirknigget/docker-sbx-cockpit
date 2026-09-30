@@ -49,3 +49,9 @@ and original secret inventory remain unchanged. Development server startup and
 production CLI startup on a custom port verified.
 
 All five slices are complete and pushed as separate commits.
+
+Spacing follow-up complete: Oxlint loads ESLint Stylistic statement padding and
+class-member spacing rules. All source was autofixed, with no non-blank-line
+source changes. `npm run lint:fix` applies spacing; Prettier retains it. The full
+quality gate passed with the unchanged anti-slop limits, 53 backend/CLI tests,
+17 browser tests and all nine exact screenshot baselines.

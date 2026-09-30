@@ -7,6 +7,7 @@ import {
   TerminalTransport,
   SbxTerminalTransport,
 } from './inspection-terminal-transport';
+
 export async function createApp(
   runner: Runner = new SbxRunner(),
   terminalTransport: TerminalTransport = new SbxTerminalTransport(),
@@ -17,8 +18,10 @@ export async function createApp(
       logger: false,
     },
   );
+
   app.use(localRequest);
   app.useGlobalFilters(new HttpFilter(), new ValidationFilter());
   app.enableShutdownHooks();
+
   return app;
 }

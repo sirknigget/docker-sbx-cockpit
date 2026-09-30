@@ -80,6 +80,16 @@ The anti-slop dependency is pinned to a Git revision in `package-lock.json`.
 Complexity limits are cognitive 12, cyclomatic 10, file length 500 and function
 length 50. Linter warnings also fail the gate.
 
+Oxlint loads ESLint Stylistic's `padding-line-between-statements` and
+`lines-between-class-members` rules to enforce readable blank lines. Imports and
+adjacent variable declarations stay grouped; functions, class methods and
+control-flow steps get separation. Apply fixes before Prettier:
+
+```sh
+npm run lint:fix
+npm run format
+```
+
 Browser tests run a real NestJS server with injected in-memory CLI and terminal
 adapters. They never invoke real sbx. Fixtures fix resource names, statuses,
 paths and content. Screenshot checks use Chromium from the lockfile, a fixed

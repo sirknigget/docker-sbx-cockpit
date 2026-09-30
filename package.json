@@ -19,35 +19,37 @@
     "test:e2e": "playwright test",
     "check": "npm run lint && npm run format:check && npm run typecheck && npm test && npm run build && npm run test:e2e",
     "test:live": "npm run build && tsx scripts/live-test.mts",
-    "docs:fetch": "python3 scripts/fetch-docs.py"
+    "docs:fetch": "python3 scripts/fetch-docs.py",
+    "lint:fix": "npm run lint -- --fix"
   },
   "dependencies": {
     "@nestjs/common": "^11.1.0",
     "@nestjs/core": "^11.1.0",
     "@nestjs/platform-express": "^11.1.0",
     "@nestjs/serve-static": "^5.0.0",
+    "lucide-react": "^0.468.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.2",
-    "zod": "^4.0.0",
-    "lucide-react": "^0.468.0"
+    "zod": "^4.0.0"
   },
   "devDependencies": {
     "@playwright/test": "^1.55.0",
+    "@stylistic/eslint-plugin": "^5.10.0",
     "@types/express": "^5.0.0",
     "@types/node": "^24.0.0",
     "@types/react": "^19.1.0",
     "@types/react-dom": "^19.1.0",
-    "@vitejs/plugin-react": "^5.0.0",
-    "vite": "^7.1.0",
-    "vitest": "^3.2.0",
-    "supertest": "^7.1.0",
     "@types/supertest": "^6.0.0",
-    "typescript": "^5.9.0",
-    "tsx": "^4.20.0",
-    "prettier": "^3.6.0",
+    "@vitejs/plugin-react": "^5.0.0",
     "oxlint": "1.73.0",
-    "oxlint-plugin-anti-slop": "github:sirknigget/anti-slop"
+    "oxlint-plugin-anti-slop": "github:sirknigget/anti-slop",
+    "prettier": "^3.6.0",
+    "supertest": "^7.1.0",
+    "tsx": "^4.20.0",
+    "typescript": "^5.9.0",
+    "vite": "^7.1.0",
+    "vitest": "^3.2.0"
   }
 }

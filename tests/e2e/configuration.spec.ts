@@ -19,7 +19,9 @@ test('templates inventory screenshot and creation from a saved template', async 
   await page
     .getByRole('button', { name: 'Create sandbox', exact: true })
     .click();
+
   const dialog = page.getByRole('dialog', { name: 'Create sandbox' });
+
   await expect(dialog.getByLabel('Template (optional)')).toHaveValue(
     'team/node-base:v1',
   );
@@ -50,7 +52,9 @@ test('saves a template and deletes it through confirmation', async ({
   await page
     .getByRole('button', { name: 'Save template', exact: true })
     .click();
+
   const save = page.getByRole('dialog', { name: 'Save template' });
+
   await save
     .getByRole('combobox', { name: /Source sandbox/ })
     .selectOption('shell-tools');
@@ -69,7 +73,9 @@ test('saves a template and deletes it through confirmation', async ({
   await expect(
     page.getByText('fixture/tools', { exact: true }),
   ).not.toBeVisible();
+
   const commands = await (await request.get('/__fixture/commands')).json();
+
   expect(commands).toContainEqual([
     'template',
     'save',
@@ -94,7 +100,9 @@ test('secrets screenshot and scoped service secret stays redacted', async ({
   ).toBeVisible();
   await expect(page).toHaveScreenshot('secrets.png');
   await page.getByRole('button', { name: 'Add secret' }).click();
+
   const dialog = page.getByRole('dialog', { name: 'Add or update secret' });
+
   await dialog
     .getByRole('combobox', { name: /^Scope/ })
     .selectOption('atlas-api');
@@ -112,7 +120,9 @@ test('secrets screenshot and scoped service secret stays redacted', async ({
   await expect(
     page.getByText('fixture-private-service-value'),
   ).not.toBeVisible();
+
   const commands = await (await request.get('/__fixture/commands')).json();
+
   expect(commands).toContainEqual([
     'secret',
     'set',
@@ -139,7 +149,9 @@ test('stores and removes host registry credentials without exposing the password
 }) => {
   await page.getByRole('button', { name: 'Secrets', exact: true }).click();
   await page.getByRole('button', { name: 'Add secret' }).click();
+
   const dialog = page.getByRole('dialog', { name: 'Add or update secret' });
+
   await dialog
     .getByRole('combobox', { name: /^Type/ })
     .selectOption('registry');
@@ -180,7 +192,9 @@ test('adds a scoped custom reference and removes its placeholder', async ({
 }) => {
   await page.getByRole('button', { name: 'Secrets', exact: true }).click();
   await page.getByRole('button', { name: 'Add secret' }).click();
+
   const dialog = page.getByRole('dialog', { name: 'Add or update secret' });
+
   await dialog.getByRole('combobox', { name: /^Type/ }).selectOption('custom');
   await dialog
     .getByRole('combobox', { name: /^Secret source/ })
@@ -227,7 +241,9 @@ test('stores and removes a direct custom secret without exposing its value', asy
 }) => {
   await page.getByRole('button', { name: 'Secrets', exact: true }).click();
   await page.getByRole('button', { name: 'Add secret' }).click();
+
   const dialog = page.getByRole('dialog', { name: 'Add or update secret' });
+
   await dialog.getByRole('combobox', { name: /^Type/ }).selectOption('custom');
   await dialog
     .getByRole('combobox', { name: /^Scope/ })
@@ -245,7 +261,9 @@ test('stores and removes a direct custom secret without exposing its value', asy
   await expect(
     page.getByText('fixture-private-custom-value'),
   ).not.toBeVisible();
+
   const commands = await (await request.get('/__fixture/commands')).json();
+
   expect(commands).toContainEqual([
     'secret',
     'set-custom',
@@ -279,7 +297,9 @@ test('ports screenshot and publishing then unpublishing a binding', async ({
   await expect(page.getByText('127.0.0.1:3000', { exact: true })).toBeVisible();
   await expect(page).toHaveScreenshot('published-ports.png');
   await page.getByRole('button', { name: 'Publish port', exact: true }).click();
+
   const dialog = page.getByRole('dialog', { name: 'Publish port' });
+
   await dialog.getByLabel('Sandbox port').fill('8080');
   await dialog.getByLabel('Host port (optional)').fill('18080');
   await dialog.getByLabel('Host IP (optional)').fill('127.0.0.1');
@@ -297,7 +317,9 @@ test('ports screenshot and publishing then unpublishing a binding', async ({
   await expect(
     page.getByText('127.0.0.1:18080', { exact: true }),
   ).not.toBeVisible();
+
   const commands = await (await request.get('/__fixture/commands')).json();
+
   expect(commands).toContainEqual([
     'ports',
     'atlas-api',

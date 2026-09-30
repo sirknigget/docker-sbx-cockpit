@@ -27,7 +27,9 @@ test('explores folders and displays a scrollable text file', async ({
   await expect(page.getByLabel('File contents')).toContainText(
     'A fixture workspace for deterministic browser tests.',
   );
+
   const viewer = page.getByLabel('File contents');
+
   expect(
     await viewer.evaluate(
       (element) => element.scrollHeight > element.clientHeight,
@@ -36,10 +38,12 @@ test('explores folders and displays a scrollable text file', async ({
   await expect(page.locator('.file-viewer')).toHaveScreenshot(
     'sandbox-text-viewer.png',
   );
+
   const commands: string[][] = await (
     await request.get('/__fixture/commands')
   ).json();
   const executions = commands.filter((command) => command[0] === 'exec');
+
   expect(executions).toHaveLength(4);
   expect(executions.at(-1)?.slice(0, 4)).toEqual([
     'exec',
@@ -87,14 +91,18 @@ test('passes quoted paths and shell punctuation as a single positional argument'
   await expect(
     page.getByRole('list', { name: 'Directory entries' }),
   ).toBeVisible();
+
   const path = '/workspace/odd "name\';$(printf injected)';
+
   await page.getByLabel('Sandbox path').fill(path);
   await page.getByRole('button', { name: 'Browse', exact: true }).click();
   await expect(page.locator('.file-browser code')).toHaveText(path);
+
   const commands: string[][] = await (
     await request.get('/__fixture/commands')
   ).json();
   const execution = commands.filter((command) => command[0] === 'exec').at(-1);
+
   expect(execution?.slice(-2)).toEqual(['--', path]);
   expect(execution?.[4]).not.toContain(path);
 });

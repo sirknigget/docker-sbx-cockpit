@@ -1,8 +1,10 @@
 import { spawn } from 'node:child_process';
+
 export interface TerminalProcess {
   write(input: string): void;
   close(): void;
 }
+
 export abstract class TerminalTransport {
   abstract start(
     name: string,
@@ -10,6 +12,7 @@ export abstract class TerminalTransport {
     exit: (code: number | null) => void,
   ): TerminalProcess;
 }
+
 export class SbxTerminalTransport extends TerminalTransport {
   start(
     name: string,
@@ -21,6 +24,7 @@ export class SbxTerminalTransport extends TerminalTransport {
       ['exec', '-i', name, 'bash', '--noprofile', '--norc'],
       { stdio: ['pipe', 'pipe', 'pipe'] },
     );
+
     child.stdout.setEncoding('utf8');
     child.stderr.setEncoding('utf8');
     child.stdout.on('data', output);
@@ -32,6 +36,7 @@ export class SbxTerminalTransport extends TerminalTransport {
       output(`\nUnable to start sbx: ${error.message}\n`),
     );
     child.on('close', exit);
+
     return {
       write: (input) => {
         child.stdin.write(input);
@@ -39,9 +44,11 @@ export class SbxTerminalTransport extends TerminalTransport {
       close: () => {
         child.stdin.end();
         child.kill('SIGTERM');
+
         const timer = setTimeout(() => {
           child.kill('SIGKILL');
         }, 2000);
+
         timer.unref();
         child.once('close', () => clearTimeout(timer));
       },

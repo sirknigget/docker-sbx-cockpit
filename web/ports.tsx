@@ -8,10 +8,12 @@ import {
   InventoryState,
   useInventory,
 } from './configuration-ui';
+
 interface PortsProps {
   sandbox: string;
   onChanged?: () => void;
 }
+
 export function Ports(props: PortsProps) {
   const inventory = useInventory(
     `/sandboxes/${encodeURIComponent(props.sandbox)}/ports`,
@@ -19,19 +21,23 @@ export function Ports(props: PortsProps) {
   );
   const [publishing, setPublishing] = useState(false);
   const [removing, setRemoving] = useState<Port>();
+
   async function remove() {
     if (!removing) return;
+
     const body = {
       hostIp: removing.host_ip,
       hostPort: removing.host_port,
       sandboxPort: removing.sandbox_port,
       protocol: removing.protocol,
     };
+
     if (await inventory.mutate('DELETE', JSON.stringify(body))) {
       setRemoving(undefined);
       props.onChanged?.();
     }
   }
+
   return (
     <section className="configuration-section">
       <div className="section-heading">
@@ -112,15 +118,18 @@ export function Ports(props: PortsProps) {
     </section>
   );
 }
+
 interface PublishProps {
   busy: boolean;
   error: string;
   onClose: () => void;
   onSubmit: (body: string) => Promise<void>;
 }
+
 function PublishPort(props: PublishProps) {
   function submit(form: HTMLFormElement) {
     const data = new FormData(form);
+
     void props.onSubmit(
       JSON.stringify({
         hostIp: data.get('hostIp') || undefined,
@@ -132,6 +141,7 @@ function PublishPort(props: PublishProps) {
       }),
     );
   }
+
   return (
     <Modal title="Publish port" onClose={props.onClose}>
       <form

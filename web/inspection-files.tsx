@@ -9,6 +9,7 @@ import {
 import { api } from './api';
 import { bytes } from './ui';
 import './inspection.css';
+
 export function SandboxFiles({
   sandbox,
   onStarted,
@@ -27,11 +28,13 @@ export function SandboxFiles({
       setBusy(true);
       setError('');
       setFile(undefined);
+
       try {
         const result = await api(
           `${base}/files?path=${encodeURIComponent(target)}`,
           directorySchema,
         );
+
         setDirectory(result);
         setPath(result.path);
         onStarted?.();
@@ -45,13 +48,16 @@ export function SandboxFiles({
     },
     [base, onStarted],
   );
+
   useEffect(() => {
     void browse('/');
   }, [browse]);
+
   async function view(target: string) {
     setBusy(true);
     setError('');
     setFile(undefined);
+
     try {
       setFile(
         await api(
@@ -67,10 +73,12 @@ export function SandboxFiles({
       setBusy(false);
     }
   }
+
   function submit(event: FormEvent) {
     event.preventDefault();
     void browse(path);
   }
+
   return (
     <section className="inspection-pane">
       <p className="muted">
@@ -124,6 +132,7 @@ export function SandboxFiles({
                 disabled={busy || !['directory', 'file'].includes(entry.kind)}
                 onClick={() => {
                   const target = `${directory.path.replace(/\/+$/, '')}/${entry.name}`;
+
                   void (entry.kind === 'directory'
                     ? browse(target)
                     : view(target));

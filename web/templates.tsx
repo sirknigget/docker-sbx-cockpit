@@ -12,16 +12,20 @@ import {
   InventoryState,
   useInventory,
 } from './configuration-ui';
+
 interface TemplatesProps {
   sandboxes: Sandbox[];
   onCreate: (reference: string) => void;
 }
+
 export function Templates(props: TemplatesProps) {
   const inventory = useInventory('/templates', templatesSchema);
   const [saving, setSaving] = useState(false);
   const [removing, setRemoving] = useState<Template>();
+
   async function remove() {
     if (!removing) return;
+
     if (
       await inventory.mutate(
         'DELETE',
@@ -30,6 +34,7 @@ export function Templates(props: TemplatesProps) {
     )
       setRemoving(undefined);
   }
+
   return (
     <section className="configuration-section">
       <div className="section-heading">
@@ -94,13 +99,16 @@ export function Templates(props: TemplatesProps) {
     </section>
   );
 }
+
 interface CardProps {
   image: Template;
   onCreate: (reference: string) => void;
   onRemove: (image: Template) => void;
 }
+
 function TemplateCard(props: CardProps) {
   const reference = templateReference(props.image);
+
   return (
     <article className="template-card">
       <Layers size={22} />
@@ -125,6 +133,7 @@ function TemplateCard(props: CardProps) {
     </article>
   );
 }
+
 interface SaveProps {
   sandboxes: Sandbox[];
   busy: boolean;
@@ -132,16 +141,20 @@ interface SaveProps {
   onClose: () => void;
   onSubmit: (body: string) => Promise<void>;
 }
+
 function SaveTemplate(props: SaveProps) {
   const stopped = props.sandboxes.filter(
     (sandbox) => sandbox.status === 'stopped',
   );
+
   return (
     <Modal title="Save template" onClose={props.onClose}>
       <form
         onSubmit={(event) => {
           event.preventDefault();
+
           const form = new FormData(event.currentTarget);
+
           void props.onSubmit(
             JSON.stringify({
               sandbox: form.get('sandbox'),

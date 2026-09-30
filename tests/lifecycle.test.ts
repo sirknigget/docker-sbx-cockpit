@@ -4,10 +4,13 @@ import { createApp } from '../server/bootstrap';
 import { Runner } from '../server/runner';
 import { Sandboxes } from '../server/sandboxes';
 import { createSchema } from '../shared/contracts';
+
 class RecordingRunner extends Runner {
   readonly calls: { args: string[]; stdin?: string }[] = [];
+
   async run(args: string[], stdin?: string) {
     this.calls.push({ args, stdin });
+
     return args[0] === 'ls'
       ? JSON.stringify({
           sandboxes: [
@@ -24,20 +27,25 @@ class RecordingRunner extends Runner {
       : 'Completed';
   }
 }
+
 const runner = new RecordingRunner();
 const app = await createApp(runner);
+
 beforeAll(async () => {
   await app.init();
 });
 afterAll(async () => {
   await app.close();
 });
+
 const headers = { Host: '127.0.0.1', 'X-Cockpit-Request': '1' };
+
 test('inventory reaches CLI through Nest route', async () => {
   const response = await request(app.getHttpServer())
     .get('/api/sandboxes')
     .set(headers)
     .expect(200);
+
   expect(response.body.sandboxes[0].name).toBe('test-sandbox');
   expect(runner.calls.at(-1)?.args).toEqual(['ls', '--json']);
 });
@@ -79,6 +87,7 @@ test('stop and deletion target a single validated name', async () => {
 });
 test('invalid names, agents and relative mounts never reach CLI', async () => {
   const before = runner.calls.length;
+
   await request(app.getHttpServer())
     .post('/api/sandboxes')
     .set(headers)
@@ -100,6 +109,7 @@ test('invalid names, agents and relative mounts never reach CLI', async () => {
 });
 test('cross-origin and DNS rebinding requests are blocked', async () => {
   const before = runner.calls.length;
+
   await request(app.getHttpServer())
     .post('/api/sandboxes')
     .set('Host', '127.0.0.1')
@@ -122,6 +132,7 @@ test('CLI failures propagate without hiding useful error', async () => {
       throw new Error('Unavailable');
     }
   }
+
   await expect(new Sandboxes(new UnavailableRunner()).list()).rejects.toThrow(
     'Unavailable',
   );
@@ -129,6 +140,7 @@ test('CLI failures propagate without hiding useful error', async () => {
 
 test('API reads require custom header because inspection can start sandboxes', async () => {
   const before = runner.calls.length;
+
   await request(app.getHttpServer())
     .get('/api/sandboxes')
     .set('Host', '127.0.0.1')

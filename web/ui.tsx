@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
 import { X } from 'lucide-react';
+
 export function Modal({
   title,
   children,
@@ -32,6 +33,7 @@ export function Modal({
     </div>
   );
 }
+
 export function Badge({ status }: { status: string }) {
   return (
     <span className={`badge ${status}`}>
@@ -40,12 +42,17 @@ export function Badge({ status }: { status: string }) {
     </span>
   );
 }
+
 export function Empty({ children }: { children: ReactNode }) {
   return <div className="empty">{children}</div>;
 }
+
 export function bytes(size: number) {
   if (size < 1024) return `${size} B`;
+
   if (size < 1024 ** 2) return `${(size / 1024).toFixed(1)} KB`;
+
   if (size < 1024 ** 3) return `${(size / 1024 ** 2).toFixed(1)} MB`;
+
   return `${(size / 1024 ** 3).toFixed(1)} GB`;
 }

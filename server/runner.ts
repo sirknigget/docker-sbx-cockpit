@@ -1,5 +1,6 @@
 import { spawn, type ChildProcess } from 'node:child_process';
 import { BadGatewayException, GatewayTimeoutException } from '@nestjs/common';
+
 export abstract class Runner {
   abstract run(
     args: string[],
@@ -7,6 +8,7 @@ export abstract class Runner {
     timeout?: number,
   ): Promise<string>;
 }
+
 export class SbxRunner extends Runner {
   async run(args: string[], stdin?: string, timeout = 60_000): Promise<string> {
     return new Promise((resolve, reject) => {
@@ -17,14 +19,18 @@ export class SbxRunner extends Runner {
       const timer = deadline(child, reject, timeout);
       const collect = (chunk: Buffer) => {
         size += chunk.length;
+
         if (size > 2 * 1024 * 1024) {
           exceeded = true;
           child.kill('SIGKILL');
         } else chunks.push(chunk);
       };
+
       const stdout: Buffer[] = [];
+
       child.stdout.on('data', (chunk: Buffer) => {
         collect(chunk);
+
         if (!exceeded) stdout.push(chunk);
       });
       child.stderr.on('data', collect);
@@ -34,10 +40,12 @@ export class SbxRunner extends Runner {
       });
       child.on('close', (code) => {
         clearTimeout(timer);
+
         if (exceeded)
           return reject(
             new BadGatewayException('sbx output exceeded the 2 MiB limit'),
           );
+
         if (code !== 0)
           return reject(
             new BadGatewayException(

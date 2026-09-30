@@ -1,6 +1,7 @@
 import type { Sandbox } from '../shared/contracts';
 import { RefreshCw } from 'lucide-react';
 import type { Section } from './layout';
+
 export function Heading({
   section,
   selected,
@@ -17,6 +18,7 @@ export function Heading({
     templates: 'Start from a good place.',
     secrets: 'Keep credentials close.',
   };
+
   return (
     <div className="page-heading">
       <div className="eyebrow">DOCKER SANDBOXES</div>
@@ -39,6 +41,7 @@ export function Heading({
     </div>
   );
 }
+
 export function Stats({ sandboxes }: { sandboxes: Sandbox[] }) {
   return (
     <div className="stats">

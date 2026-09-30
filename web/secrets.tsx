@@ -13,9 +13,11 @@ import {
   ScopeField,
   useInventory,
 } from './configuration-ui';
+
 interface SecretsProps {
   sandboxes: Sandbox[];
 }
+
 export function Secrets(props: SecretsProps) {
   const inventory = useInventory('/secrets', secretsSchema);
   const [creating, setCreating] = useState(false);
@@ -29,6 +31,7 @@ export function Secrets(props: SecretsProps) {
     inventory.data?.custom_secrets.filter(
       (secret) => scope === 'all' || secret.scope === scope,
     ) ?? [];
+
   async function remove() {
     if (
       removing &&
@@ -36,6 +39,7 @@ export function Secrets(props: SecretsProps) {
     )
       setRemoving(undefined);
   }
+
   return (
     <section className="configuration-section">
       <div className="section-heading">
@@ -168,6 +172,7 @@ export function Secrets(props: SecretsProps) {
     </section>
   );
 }
+
 interface SecretFormProps {
   sandboxes: Sandbox[];
   busy: boolean;
@@ -175,8 +180,10 @@ interface SecretFormProps {
   onClose: () => void;
   onSubmit: (body: string) => Promise<void>;
 }
+
 function SecretForm(props: SecretFormProps) {
   const [kind, setKind] = useState('service');
+
   async function submit(form: HTMLFormElement) {
     const data = new FormData(form);
     const input =
@@ -199,9 +206,11 @@ function SecretForm(props: SecretFormProps) {
             username: data.get('username') || undefined,
             value: data.get('value'),
           };
+
     form.reset();
     await props.onSubmit(JSON.stringify(input));
   }
+
   return (
     <Modal title="Add or update secret" onClose={props.onClose}>
       <form
@@ -251,6 +260,7 @@ function SecretForm(props: SecretFormProps) {
     </Modal>
   );
 }
+
 function CustomFields() {
   return (
     <>
@@ -281,8 +291,10 @@ function CustomFields() {
     </>
   );
 }
+
 function CustomSource() {
   const [source, setSource] = useState('value');
+
   return (
     <>
       <label>
@@ -325,9 +337,11 @@ function CustomSource() {
     </>
   );
 }
+
 interface ValueProps {
   registry: boolean;
 }
+
 function ValueFields(props: ValueProps) {
   return (
     <>

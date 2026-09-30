@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import { nameSchema, portSchema, referenceSchema } from './contracts';
+
 export const templateSchema = z.object({
   id: z.string(),
   repository: z.string(),
@@ -8,22 +9,30 @@ export const templateSchema = z.object({
   created_at: z.string().optional(),
   size: z.number().nonnegative(),
 });
+
 export const templatesSchema = z.object({ images: z.array(templateSchema) });
+
 export const saveTemplateSchema = z.object({
   sandbox: nameSchema,
   reference: referenceSchema,
 });
+
 export const removeTemplateSchema = z.object({ reference: referenceSchema });
+
 export type Template = z.infer<typeof templateSchema>;
+
 export function templateReference(template: Template) {
   const reference = `${template.repository}:${template.tag}`;
+
   return referenceSchema.safeParse(reference).success ? reference : template.id;
 }
+
 export const scopeSchema = z.union([
   z.literal('global'),
   z.literal('host'),
   nameSchema,
 ]);
+
 export const services = [
   'anthropic',
   'copilot',
@@ -39,6 +48,7 @@ export const services = [
   'openrouter',
   'xai',
 ] as const;
+
 const registrySchema = z
   .string()
   .min(1)
@@ -54,6 +64,7 @@ const valueSchema = z
   .min(1)
   .max(65536)
   .refine((value) => !value.includes('\0'));
+
 export const setSecretSchema = z.discriminatedUnion('kind', [
   z.object({
     kind: z.literal('service'),
@@ -86,6 +97,7 @@ export const setSecretSchema = z.discriminatedUnion('kind', [
       path: ['value'],
     }),
 ]);
+
 export const removeSecretSchema = z.discriminatedUnion('kind', [
   z.object({
     kind: z.literal('service'),
@@ -111,28 +123,37 @@ export const removeSecretSchema = z.discriminatedUnion('kind', [
       .regex(/^[a-zA-Z0-9][a-zA-Z0-9._-]*$/),
   }),
 ]);
+
 const inventoryScopeSchema = z
   .string()
   .transform((scope) => (scope === 'host-only' ? 'host' : scope));
+
 export const secretSchema = z.object({
   scope: inventoryScopeSchema,
   type: z.string(),
   name: z.string(),
 });
+
 export const customSecretSchema = z.object({
   scope: inventoryScopeSchema,
   targets: z.array(z.string()),
   env: z.string().optional(),
   placeholder: z.string(),
 });
+
 export const secretsSchema = z.object({
   secrets: z.array(secretSchema).default([]),
   custom_secrets: z.array(customSecretSchema).default([]),
 });
+
 export type SetSecret = z.infer<typeof setSecretSchema>;
+
 export type RemoveSecret = z.infer<typeof removeSecretSchema>;
+
 export type SecretInventory = z.infer<typeof secretsSchema>;
+
 export const portsSchema = z.object({ ports: z.array(portSchema) });
+
 const portBindingSchema = z.object({
   hostIp: z
     .string()
@@ -145,19 +166,24 @@ const portBindingSchema = z.object({
     .enum(['tcp', 'tcp4', 'tcp6', 'udp', 'udp4', 'udp6'])
     .default('tcp4'),
 });
+
 export const publishPortSchema = portBindingSchema.refine(
   (port) => !port.hostIp || port.hostPort !== undefined,
   { message: 'An explicit host IP requires a host port', path: ['hostPort'] },
 );
+
 export const unpublishPortSchema = portBindingSchema.extend({
   hostPort: z.number().int().min(1).max(65535),
 });
+
 export type PublishPort = z.infer<typeof publishPortSchema>;
+
 export function portSpec(port: PublishPort) {
   const hostIp = port.hostIp?.replace(/^\[|\]$/g, '');
   const address = hostIp?.includes(':') ? `[${hostIp}]` : hostIp;
   const host = port.hostPort
     ? `${address ? `${address}:` : ''}${port.hostPort}:`
     : '';
+
   return `${host}${port.sandboxPort}/${port.protocol}`;
 }

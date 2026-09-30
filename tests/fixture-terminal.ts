@@ -13,9 +13,11 @@ export class FixtureTerminalTransport extends TerminalTransport {
     exit: (code: number | null) => void,
   ): TerminalProcess {
     queueMicrotask(() => output(`Fixture Bash in ${name}\n`));
+
     return {
       write: (input) => {
         this.commands.push(input);
+
         if (input.trim() === 'pwd') output('/workspace/atlas-api\n');
         else if (input.trim() === 'whoami') output('fixture-user\n');
         else output('Fixture command completed\n');

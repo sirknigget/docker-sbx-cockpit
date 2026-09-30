@@ -3,6 +3,7 @@ import { diskSchema, type DiskUsage } from '../shared/inspection';
 import { api } from './api';
 import { bytes } from './ui';
 import './inspection.css';
+
 export function SandboxDisk({
   sandbox,
   onStarted,
@@ -14,10 +15,12 @@ export function SandboxDisk({
   const [usage, setUsage] = useState<DiskUsage>();
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
+
   async function check(event: FormEvent) {
     event.preventDefault();
     setBusy(true);
     setError('');
+
     try {
       setUsage(
         await api(
@@ -36,8 +39,10 @@ export function SandboxDisk({
       setBusy(false);
     }
   }
+
   const total =
     usage?.entries.find((entry) => entry.path === usage.path)?.size ?? 1;
+
   return (
     <section className="inspection-pane">
       <p className="muted">

@@ -10,10 +10,13 @@ import {
 import { Runner } from '../server/runner';
 import { templateReference, secretsSchema } from '../shared/configuration';
 import { HttpFilter, ValidationFilter } from '../server/security';
+
 class ConfigurationRunner extends Runner {
   readonly calls: { args: string[]; stdin?: string }[] = [];
+
   async run(args: string[], stdin?: string) {
     this.calls.push({ args, stdin });
+
     if (args.join(' ') === 'template ls --json')
       return JSON.stringify({
         images: [
@@ -26,6 +29,7 @@ class ConfigurationRunner extends Runner {
           },
         ],
       });
+
     if (args[0] === 'secret' && args[1] === 'ls')
       return JSON.stringify({
         secrets: [
@@ -46,6 +50,7 @@ class ConfigurationRunner extends Runner {
           },
         ],
       });
+
     if (args[0] === 'ports' && args.includes('--json'))
       return JSON.stringify([
         {
@@ -55,13 +60,17 @@ class ConfigurationRunner extends Runner {
           protocol: 'tcp4',
         },
       ]);
+
     return 'stored-private-value';
   }
 }
+
 @Module({})
 class ConfigurationTestModule {}
+
 let app: INestApplication;
 let runner: ConfigurationRunner;
+
 beforeEach(async () => {
   runner = new ConfigurationRunner();
   app = await NestFactory.create(
@@ -103,6 +112,7 @@ test('secret inventory omits values and dynamic source metadata', async () => {
   const result = await request(app.getHttpServer())
     .get('/api/secrets')
     .expect(200);
+
   expect(result.body).toEqual({
     secrets: [{ scope: 'global', type: 'service', name: 'openai' }],
     custom_secrets: [
@@ -126,6 +136,7 @@ test('service and registry values go through stdin and never into response or ar
       value: 'fixture-only-secret',
     })
     .expect(201);
+
   expect(result.body).toEqual({ output: 'Secret saved' });
   await request(app.getHttpServer())
     .post('/api/secrets')
@@ -210,13 +221,16 @@ test('ports normalize CLI arrays and delegate publish and unpublish', async () =
   const result = await request(app.getHttpServer())
     .get('/api/sandboxes/fixture-box/ports')
     .expect(200);
+
   expect(result.body.ports[0].host_port).toBe(8080);
+
   const binding = {
     hostIp: '127.0.0.1',
     hostPort: 8080,
     sandboxPort: 3000,
     protocol: 'tcp4',
   };
+
   await request(app.getHttpServer())
     .post('/api/sandboxes/fixture-box/ports')
     .send(binding)
@@ -406,6 +420,7 @@ test('direct custom secret values go through stdin and never argv or responses',
       value: 'fixture-custom-secret',
     })
     .expect(201);
+
   expect(result.body).toEqual({ output: 'Secret saved' });
   expect(runner.calls).toEqual([
     {
@@ -433,6 +448,7 @@ test('custom secret creation requires exactly one value or reference', async () 
     hosts: ['api.fixture.test'],
     env: 'API_KEY',
   };
+
   await request(app.getHttpServer())
     .post('/api/secrets')
     .send(input)

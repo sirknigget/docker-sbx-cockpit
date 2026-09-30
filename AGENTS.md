@@ -24,6 +24,10 @@ Implement and push each verifiable vertical slice; track progress in TASKS.md.
 The quality gate uses the user-requested exact limits: cognitive complexity 12,
 cyclomatic complexity 10, maximum file lines 500 and maximum function lines 50.
 Do not relax these thresholds or add broad lint suppressions to pass the gate.
+Oxlint also loads ESLint Stylistic to require blank lines after imports, around
+functions and types, before control-flow statements, and between class methods.
+Adjacent imports and variable declarations can stay grouped. Run
+`npm run lint:fix` followed by `npm run format` to apply spacing and formatting.
 Screenshot goldens use macOS Chromium, fixture data, UTC, en-US, 1440x1000 and
 zero pixel tolerance. Update only after reviewing an intentional UI change.
 

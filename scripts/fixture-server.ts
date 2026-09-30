@@ -11,11 +11,13 @@ const load = createRequire(join(process.cwd(), 'package.json'));
 const { createApp } = load('./dist/server/bootstrap.js') as {
   createApp: typeof createNestApp;
 };
+
 async function main() {
   const runner = new FixtureRunner();
   const transport = new FixtureTerminalTransport();
   const app = await createApp(runner, transport);
   const adapter = app.getHttpAdapter();
+
   adapter.post('/__fixture/reset', (_req: Request, res: Response) => {
     runner.reset();
     transport.commands = [];
@@ -32,4 +34,5 @@ async function main() {
   );
   await app.listen(9877, '127.0.0.1');
 }
+
 void main();

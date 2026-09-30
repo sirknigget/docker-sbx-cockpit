@@ -1,6 +1,7 @@
 import { Box, Folder, Plus, ArrowUpRight, Square, Trash2 } from 'lucide-react';
 import type { Sandbox } from '../shared/contracts';
 import { Badge, Empty } from './ui';
+
 export function SandboxList({
   sandboxes,
   onCreate,

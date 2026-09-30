@@ -55,22 +55,33 @@ export class FixtureRunner extends Runner {
 
   async run(args: string[]): Promise<string> {
     this.commands.push([...args]);
+
     if (args[0] === 'ls') return JSON.stringify({ sandboxes: this.sandboxes });
+
     if (args[0] === 'create') return this.create(args);
+
     if (args[0] === 'template')
       return this.configuration.template(args, this.sandboxes);
+
     if (args[0] === 'secret') return this.configuration.secret(args);
+
     if (args[0] === 'ports')
       return this.configuration.ports(args, this.find(args[1]));
+
     if (args[0] === 'exec') return fixtureInspection(args);
+
     if (args[0] === 'stop') {
       this.find(args[1]).status = 'stopped';
+
       return `Stopped ${args[1]}`;
     }
+
     if (args[0] === 'rm') {
       this.sandboxes = this.sandboxes.filter((item) => item.name !== args[2]);
+
       return `Removed ${args[2]}`;
     }
+
     throw new BadGatewayException(
       `Unsupported fixture command: ${args.join(' ')}`,
     );
@@ -78,16 +89,21 @@ export class FixtureRunner extends Runner {
 
   private find(name: string) {
     const sandbox = this.sandboxes.find((item) => item.name === name);
+
     if (!sandbox)
       throw new BadGatewayException(`Sandbox ${name} does not exist`);
+
     return sandbox;
   }
 
   private create(args: string[]) {
     const name = args[args.indexOf('--name') + 1];
+
     if (name === 'fail-create')
       throw new BadGatewayException('Fixture daemon unavailable. Try again.');
+
     const agentIndex = args.includes('--template') ? 7 : 3;
+
     this.sandboxes.push({
       name,
       id: `fixture-${name}`,
@@ -97,6 +113,7 @@ export class FixtureRunner extends Runner {
       ports: [],
       created_at: '2026-09-30T00:00:00Z',
     });
+
     return `Created ${name}`;
   }
 }

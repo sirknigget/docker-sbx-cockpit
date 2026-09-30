@@ -6,14 +6,18 @@ import { Ports } from './ports';
 import { SandboxFiles } from './inspection-files';
 import { SandboxDisk } from './inspection-disk';
 import { SandboxTerminal } from './inspection-terminal';
+
 type Tab = 'Ports' | 'Files' | 'Disk usage' | 'Terminal';
+
 interface DetailProps {
   sandbox: Sandbox;
   onBack: () => void;
   onChanged: () => void;
 }
+
 export function SandboxDetail({ sandbox, onBack, onChanged }: DetailProps) {
   const [tab, setTab] = useState<Tab>('Ports');
+
   return (
     <section>
       <button onClick={onBack}>
@@ -46,6 +50,7 @@ export function SandboxDetail({ sandbox, onBack, onChanged }: DetailProps) {
     </section>
   );
 }
+
 function Tool({
   tab,
   sandbox,
@@ -57,9 +62,12 @@ function Tool({
 }) {
   if (tab === 'Files')
     return <SandboxFiles sandbox={sandbox} onStarted={onChanged} />;
+
   if (tab === 'Disk usage')
     return <SandboxDisk sandbox={sandbox} onStarted={onChanged} />;
+
   if (tab === 'Terminal')
     return <SandboxTerminal sandbox={sandbox} onStarted={onChanged} />;
+
   return <Ports sandbox={sandbox} onChanged={onChanged} />;
 }

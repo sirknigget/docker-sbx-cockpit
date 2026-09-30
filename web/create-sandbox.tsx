@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { agents, resultSchema } from '../shared/contracts';
 import { api } from './api';
 import { Modal } from './ui';
+
 export function CreateSandboxDialog({
   onClose,
   onCreated,
@@ -13,14 +14,17 @@ export function CreateSandboxDialog({
 }) {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
+
   async function submit(form: HTMLFormElement) {
     const values = new FormData(form);
     const workspaces = String(values.get('workspaces'))
       .split('\n')
       .map((value) => value.trim())
       .filter(Boolean);
+
     setBusy(true);
     setError('');
+
     try {
       await api(
         '/sandboxes',
@@ -43,6 +47,7 @@ export function CreateSandboxDialog({
       setBusy(false);
     }
   }
+
   return (
     <Modal title="Create sandbox" onClose={onClose}>
       <p className="muted">A fresh, isolated environment on this machine.</p>
