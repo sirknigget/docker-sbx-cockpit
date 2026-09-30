@@ -1,3 +1,0 @@
-# sbx completion powershell
-
-

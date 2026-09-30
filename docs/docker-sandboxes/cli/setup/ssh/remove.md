@@ -1,3 +1,0 @@
-# sbx setup ssh remove
-
-

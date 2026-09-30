@@ -1,3 +1,0 @@
-# sbx secret ls
-
-

@@ -1,3 +1,0 @@
-# sbx volume inspect
-
-
