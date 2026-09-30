@@ -133,6 +133,9 @@ interface SaveProps {
   onSubmit: (body: string) => Promise<void>;
 }
 function SaveTemplate(props: SaveProps) {
+  const stopped = props.sandboxes.filter(
+    (sandbox) => sandbox.status === 'stopped',
+  );
   return (
     <Modal title="Save template" onClose={props.onClose}>
       <form
@@ -149,8 +152,8 @@ function SaveTemplate(props: SaveProps) {
       >
         <label>
           Source sandbox
-          <select name="sandbox">
-            {props.sandboxes.map((sandbox) => (
+          <select name="sandbox" required>
+            {stopped.map((sandbox) => (
               <option key={sandbox.name}>{sandbox.name}</option>
             ))}
           </select>
@@ -165,8 +168,8 @@ function SaveTemplate(props: SaveProps) {
           />
         </label>
         <p className="muted">
-          Captures internal filesystem changes. Mounted workspaces and port
-          mappings are excluded.
+          Stop the source sandbox before saving. Captures internal filesystem
+          changes. Mounted workspaces and port mappings are excluded.
         </p>
         {props.error && (
           <p role="alert" className="error">
@@ -177,7 +180,10 @@ function SaveTemplate(props: SaveProps) {
           <button type="button" onClick={props.onClose}>
             Cancel
           </button>
-          <button className="primary" disabled={props.busy}>
+          <button
+            className="primary"
+            disabled={props.busy || stopped.length === 0}
+          >
             {props.busy ? 'Saving…' : 'Save template'}
           </button>
         </div>

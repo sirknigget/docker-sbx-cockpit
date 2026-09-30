@@ -68,16 +68,23 @@ export const setSecretSchema = z.discriminatedUnion('kind', [
     username: z.string().max(256).optional(),
     value: valueSchema,
   }),
-  z.object({
-    kind: z.literal('custom'),
-    scope: scopeSchema,
-    hosts: z.array(hostSchema).min(1).max(12),
-    env: z.string().regex(/^[A-Z_][A-Z0-9_]*$/),
-    reference: z
-      .string()
-      .max(2048)
-      .regex(/^(op:\/\/|arn:aws[a-z-]*:secretsmanager:)[^\s]+$/),
-  }),
+  z
+    .object({
+      kind: z.literal('custom'),
+      scope: scopeSchema,
+      hosts: z.array(hostSchema).min(1).max(12),
+      env: z.string().regex(/^[A-Z_][A-Z0-9_]*$/),
+      reference: z
+        .string()
+        .max(2048)
+        .regex(/^(op:\/\/|arn:aws[a-z-]*:secretsmanager:)[^\s]+$/)
+        .optional(),
+      value: valueSchema.optional(),
+    })
+    .refine((input) => Boolean(input.value) !== Boolean(input.reference), {
+      message: 'Provide exactly one secret value or dynamic reference',
+      path: ['value'],
+    }),
 ]);
 export const removeSecretSchema = z.discriminatedUnion('kind', [
   z.object({

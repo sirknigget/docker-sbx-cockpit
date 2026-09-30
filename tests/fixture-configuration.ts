@@ -1,5 +1,6 @@
 import type { SecretInventory, Template } from '../shared/configuration';
 import type { Sandbox } from '../shared/contracts';
+import { BadGatewayException } from '@nestjs/common';
 
 function secretScope(args: string[]) {
   const index = args.indexOf('--sandbox');
@@ -25,9 +26,13 @@ export class FixtureConfiguration {
     custom_secrets: [],
   };
 
-  template(args: string[]) {
+  template(args: string[], sandboxes: Sandbox[]) {
     if (args[1] === 'ls') return JSON.stringify({ images: this.templates });
     if (args[1] === 'save') {
+      if (sandboxes.find((item) => item.name === args[2])?.status !== 'stopped')
+        throw new BadGatewayException(
+          'Stop the sandbox before saving a template',
+        );
       const [repository, tag = 'latest'] = args[3].split(':');
       this.templates.push({
         repository,

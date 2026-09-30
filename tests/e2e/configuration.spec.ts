@@ -183,6 +183,9 @@ test('adds a scoped custom reference and removes its placeholder', async ({
   const dialog = page.getByRole('dialog', { name: 'Add or update secret' });
   await dialog.getByRole('combobox', { name: /^Type/ }).selectOption('custom');
   await dialog
+    .getByRole('combobox', { name: /^Secret source/ })
+    .selectOption('reference');
+  await dialog
     .getByRole('combobox', { name: /^Scope/ })
     .selectOption('docs-lab');
   await dialog.getByLabel('Target hosts').fill('api.fixture.test');
@@ -215,6 +218,56 @@ test('adds a scoped custom reference and removes its placeholder', async ({
     .click();
   await expect(
     page.getByText('FIXTURE_API_KEY', { exact: false }),
+  ).not.toBeVisible();
+});
+
+test('stores and removes a direct custom secret without exposing its value', async ({
+  page,
+  request,
+}) => {
+  await page.getByRole('button', { name: 'Secrets', exact: true }).click();
+  await page.getByRole('button', { name: 'Add secret' }).click();
+  const dialog = page.getByRole('dialog', { name: 'Add or update secret' });
+  await dialog.getByRole('combobox', { name: /^Type/ }).selectOption('custom');
+  await dialog
+    .getByRole('combobox', { name: /^Scope/ })
+    .selectOption('atlas-api');
+  await dialog.getByLabel('Target hosts').fill('api.direct.fixture.test');
+  await dialog.getByLabel('Environment variable').fill('FIXTURE_DIRECT_KEY');
+  await dialog
+    .locator('input[name="value"]')
+    .fill('fixture-private-custom-value');
+  await dialog.getByRole('button', { name: 'Save secret' }).click();
+  await expect(dialog).not.toBeVisible();
+  await expect(
+    page.getByText('FIXTURE_DIRECT_KEY', { exact: false }),
+  ).toBeVisible();
+  await expect(
+    page.getByText('fixture-private-custom-value'),
+  ).not.toBeVisible();
+  const commands = await (await request.get('/__fixture/commands')).json();
+  expect(commands).toContainEqual([
+    'secret',
+    'set-custom',
+    '--host',
+    'api.direct.fixture.test',
+    '--env',
+    'FIXTURE_DIRECT_KEY',
+    '--sandbox',
+    'atlas-api',
+  ]);
+  expect(JSON.stringify(commands)).not.toContain(
+    'fixture-private-custom-value',
+  );
+  await page
+    .getByRole('button', { name: 'Delete custom secret FIXTURE_DIRECT_KEY' })
+    .click();
+  await page
+    .getByRole('dialog', { name: 'Remove stored secret?' })
+    .getByRole('button', { name: 'Confirm deletion' })
+    .click();
+  await expect(
+    page.getByText('FIXTURE_DIRECT_KEY', { exact: false }),
   ).not.toBeVisible();
 });
 

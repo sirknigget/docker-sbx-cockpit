@@ -2,6 +2,7 @@ import { BadGatewayException } from '@nestjs/common';
 import type { Sandbox } from '../shared/contracts';
 import { Runner } from '../server/runner';
 import { FixtureConfiguration } from './fixture-configuration';
+import { fixtureInspection } from './fixture-inspection';
 
 const initialSandboxes: Sandbox[] = [
   {
@@ -56,10 +57,12 @@ export class FixtureRunner extends Runner {
     this.commands.push([...args]);
     if (args[0] === 'ls') return JSON.stringify({ sandboxes: this.sandboxes });
     if (args[0] === 'create') return this.create(args);
-    if (args[0] === 'template') return this.configuration.template(args);
+    if (args[0] === 'template')
+      return this.configuration.template(args, this.sandboxes);
     if (args[0] === 'secret') return this.configuration.secret(args);
     if (args[0] === 'ports')
       return this.configuration.ports(args, this.find(args[1]));
+    if (args[0] === 'exec') return fixtureInspection(args);
     if (args[0] === 'stop') {
       this.find(args[1]).status = 'stopped';
       return `Stopped ${args[1]}`;

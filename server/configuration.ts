@@ -43,7 +43,8 @@ function secretArgs(input: SetSecret) {
   }
   if (input.kind === 'custom') {
     for (const host of input.hosts) args.push('--host', host);
-    args.push('--env', input.env, '--ref', input.reference);
+    args.push('--env', input.env);
+    if (input.reference) args.push('--ref', input.reference);
   }
   args.push(...scopeArgs(input.scope, input.kind === 'registry'));
   return args;
@@ -100,10 +101,7 @@ export class Configuration {
       throw new BadRequestException(
         'Host-only scope is available for registry credentials',
       );
-    await this.runner.run(
-      secretArgs(request),
-      request.kind === 'custom' ? '' : request.value,
-    );
+    await this.runner.run(secretArgs(request), request.value ?? '');
     return { output: 'Secret saved' };
   }
   async removeSecret(input: RemoveSecret) {

@@ -189,7 +189,8 @@ function SecretForm(props: SecretFormProps) {
               .map((host) => host.trim())
               .filter(Boolean),
             env: data.get('env'),
-            reference: data.get('reference'),
+            reference: data.get('reference') || undefined,
+            value: data.get('value') || undefined,
           }
         : {
             kind,
@@ -217,7 +218,7 @@ function SecretForm(props: SecretFormProps) {
           >
             <option value="service">Service API key</option>
             <option value="registry">Registry credential</option>
-            <option value="custom">Custom secret (dynamic reference)</option>
+            <option value="custom">Custom secret</option>
           </select>
         </label>
         <ScopeField
@@ -272,18 +273,55 @@ function CustomFields() {
           placeholder="API_KEY"
         />
       </label>
-      <label>
-        Secret reference
-        <input name="reference" required placeholder="op://Vault/Item/field" />
-        <small>
-          1Password op:// reference or AWS Secrets Manager ARN. Requires an
-          authenticated host CLI.
-        </small>
-      </label>
+      <CustomSource />
       <p className="muted">
         Custom secrets are experimental. The proxy substitutes a placeholder on
         requests to the target hosts.
       </p>
+    </>
+  );
+}
+function CustomSource() {
+  const [source, setSource] = useState('value');
+  return (
+    <>
+      <label>
+        Secret source
+        <select
+          value={source}
+          onChange={(event) => setSource(event.target.value)}
+        >
+          <option value="value">Value</option>
+          <option value="reference">Reference</option>
+        </select>
+      </label>
+      {source === 'value' ? (
+        <label>
+          Secret value
+          <input
+            name="value"
+            type="password"
+            required
+            autoComplete="new-password"
+          />
+          <small>
+            The value is passed through stdin and cleared when submitted.
+          </small>
+        </label>
+      ) : (
+        <label>
+          Secret reference
+          <input
+            name="reference"
+            required
+            placeholder="op://Vault/Item/field"
+          />
+          <small>
+            1Password op:// reference or AWS Secrets Manager ARN. Requires an
+            authenticated host CLI.
+          </small>
+        </label>
+      )}
     </>
   );
 }

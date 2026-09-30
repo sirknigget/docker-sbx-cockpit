@@ -64,7 +64,7 @@ export function App() {
         onSelect={(sandbox) => setSelectedName(sandbox.name)}
         onCreate={(template) => setCreation({ template })}
         revision={revision}
-        onChanged={() => void inventory.refresh()}
+        onChanged={inventory.refresh}
         onAction={(sandbox, action) => setPending({ sandbox, action })}
       />
       {creation && (

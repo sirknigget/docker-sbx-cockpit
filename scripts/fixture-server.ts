@@ -3,6 +3,7 @@ import { join } from 'node:path';
 import type { Request, Response } from 'express';
 import type { createApp as createNestApp } from '../server/bootstrap';
 import { FixtureRunner } from '../tests/fixtures';
+import { FixtureTerminalTransport } from '../tests/fixture-terminal';
 
 // The compiled backend preserves Nest decorator metadata and its static asset path.
 const load = createRequire(join(process.cwd(), 'package.json'));
@@ -12,15 +13,23 @@ const { createApp } = load('./dist/server/bootstrap.js') as {
 };
 async function main() {
   const runner = new FixtureRunner();
-  const app = await createApp(runner);
+  const transport = new FixtureTerminalTransport();
+  const app = await createApp(runner, transport);
   const adapter = app.getHttpAdapter();
   adapter.post('/__fixture/reset', (_req: Request, res: Response) => {
     runner.reset();
+    transport.commands = [];
     res.json({ status: 'ok' });
   });
   adapter.get('/__fixture/commands', (_req: Request, res: Response) => {
     res.json(runner.commands);
   });
+  adapter.get(
+    '/__fixture/terminal-commands',
+    (_req: Request, res: Response) => {
+      res.json(transport.commands);
+    },
+  );
   await app.listen(9877, '127.0.0.1');
 }
 void main();

@@ -4,6 +4,12 @@ import { join } from 'node:path';
 import { Runner, SbxRunner } from './runner';
 import { Sandboxes, SandboxesController } from './sandboxes';
 import { Configuration, ConfigurationController } from './configuration';
+import { Inspection, InspectionController } from './inspection';
+import { Terminals, TerminalsController } from './inspection-terminal';
+import {
+  TerminalTransport,
+  SbxTerminalTransport,
+} from './inspection-terminal-transport';
 @Controller('api')
 class HealthController {
   @Get('health') health() {
@@ -12,7 +18,10 @@ class HealthController {
 }
 @Module({})
 export class AppModule {
-  static register(runner: Runner = new SbxRunner()): DynamicModule {
+  static register(
+    runner: Runner = new SbxRunner(),
+    terminalTransport: TerminalTransport = new SbxTerminalTransport(),
+  ): DynamicModule {
     return {
       module: AppModule,
       imports: [
@@ -25,11 +34,16 @@ export class AppModule {
         HealthController,
         SandboxesController,
         ConfigurationController,
+        InspectionController,
+        TerminalsController,
       ],
       providers: [
         { provide: Runner, useValue: runner },
         Sandboxes,
         Configuration,
+        Inspection,
+        Terminals,
+        { provide: TerminalTransport, useValue: terminalTransport },
       ],
     };
   }

@@ -395,3 +395,55 @@ test('host-only inventory aliases stay available for scope filtering without val
     custom_secrets: [],
   });
 });
+test('direct custom secret values go through stdin and never argv or responses', async () => {
+  const result = await request(app.getHttpServer())
+    .post('/api/secrets')
+    .send({
+      kind: 'custom',
+      scope: 'fixture-box',
+      hosts: ['api.fixture.test'],
+      env: 'API_KEY',
+      value: 'fixture-custom-secret',
+    })
+    .expect(201);
+  expect(result.body).toEqual({ output: 'Secret saved' });
+  expect(runner.calls).toEqual([
+    {
+      args: [
+        'secret',
+        'set-custom',
+        '--host',
+        'api.fixture.test',
+        '--env',
+        'API_KEY',
+        '--sandbox',
+        'fixture-box',
+      ],
+      stdin: 'fixture-custom-secret',
+    },
+  ]);
+  expect(JSON.stringify(runner.calls[0]?.args)).not.toContain(
+    'fixture-custom-secret',
+  );
+});
+test('custom secret creation requires exactly one value or reference', async () => {
+  const input = {
+    kind: 'custom',
+    scope: 'global',
+    hosts: ['api.fixture.test'],
+    env: 'API_KEY',
+  };
+  await request(app.getHttpServer())
+    .post('/api/secrets')
+    .send(input)
+    .expect(400);
+  await request(app.getHttpServer())
+    .post('/api/secrets')
+    .send({
+      ...input,
+      value: 'fixture-only',
+      reference: 'op://Fixture/API/key',
+    })
+    .expect(400);
+  expect(runner.calls).toEqual([]);
+});

@@ -7,18 +7,18 @@
     "sbx-cockpit": "bin/sbx-cockpit.mjs"
   },
   "scripts": {
-    "dev": "tsx watch server/main.ts",
+    "dev": "tsx watch --tsconfig tsconfig.server.json server/main.ts",
     "dev:web": "vite --host 127.0.0.1",
     "build": "tsc -p tsconfig.server.json && vite build",
     "start": "node bin/sbx-cockpit.mjs",
-    "lint": "oxlint --deny-warnings --config oxlint.config.ts server web shared tests scripts bin",
+    "lint": "oxlint --deny-warnings --config oxlint.config.mts server web shared tests scripts bin",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "typecheck": "tsc --noEmit && tsc -p tsconfig.server.json --noEmit",
     "test": "vitest run",
     "test:e2e": "playwright test",
     "check": "npm run lint && npm run format:check && npm run typecheck && npm test && npm run build && npm run test:e2e",
-    "test:live": "tsx scripts/live-test.ts",
+    "test:live": "npm run build && tsx scripts/live-test.mts",
     "docs:fetch": "python3 scripts/fetch-docs.py"
   },
   "dependencies": {

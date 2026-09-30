@@ -25,3 +25,14 @@ secrets, custom secret references, and all six published-port protocols.
 baselines cover templates, secrets and ports. Runner output/timeouts verified with
 eight tests using a fake executable. API reads now require a same-origin request
 header because inspection can start stopped sandboxes.
+
+Slice 4 complete: NUL-safe folder browsing, bounded 1 MiB UTF-8 file viewer,
+same-filesystem largest-directory disk map, and persistent Bash via `sbx exec -i`.
+13 inspection tests pass (including actual local Bash pipeline checks on owned
+temporary files); five inspection browser tests and four screenshot baselines pass.
+All 17 browser tests compare exactly. Template saving requires a stopped local
+sandbox; UI now offers stopped sources only. Full live API verification passed
+using only freshly created sandbox/template/scoped-secret/port resources; cleanup
+and unchanged original inventories verified. Custom secrets also accept direct
+values through stdin (confirmed on a freshly created, owned sandbox); both
+reference and direct-value flows have backend and browser tests.
