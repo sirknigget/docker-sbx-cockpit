@@ -1,0 +1,7 @@
+node_modules
+dist
+docs/docker-sandboxes
+docs/sbx-help
+package-lock.json
+test-results
+playwright-report

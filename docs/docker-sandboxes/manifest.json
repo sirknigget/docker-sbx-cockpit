@@ -1,0 +1,321 @@
+{
+  "fetched_at": "2026-09-30T14:21:20.601122+00:00",
+  "pages": [
+    {
+      "source": "https://docs.docker.com/ai/sandboxes.md",
+      "file": "index.md"
+    },
+    {
+      "source": "https://docs.docker.com/ai/sandboxes/agents.md",
+      "file": "agents.md"
+    },
+    {
+      "source": "https://docs.docker.com/ai/sandboxes/agents/claude-code.md",
+      "file": "agents/claude-code.md"
+    },
+    {
+      "source": "https://docs.docker.com/ai/sandboxes/agents/codex.md",
+      "file": "agents/codex.md"
+    },
+    {
+      "source": "https://docs.docker.com/ai/sandboxes/agents/copilot.md",
+      "file": "agents/copilot.md"
+    },
+    {
+      "source": "https://docs.docker.com/ai/sandboxes/agents/cursor.md",
+      "file": "agents/cursor.md"
+    },
+    {
+      "source": "https://docs.docker.com/ai/sandboxes/agents/devin.md",
+      "file": "agents/devin.md"
+    },
+    {
+      "source": "https://docs.docker.com/ai/sandboxes/agents/docker-agent.md",
+      "file": "agents/docker-agent.md"
+    },
+    {
+      "source": "https://docs.docker.com/ai/sandboxes/agents/droid.md",
+      "file": "agents/droid.md"
+    },
+    {
+      "source": "https://docs.docker.com/ai/sandboxes/agents/gemini.md",
+      "file": "agents/gemini.md"
+    },
+    {
+      "source": "https://docs.docker.com/ai/sandboxes/agents/kiro.md",
+      "file": "agents/kiro.md"
+    },
+    {
+      "source": "https://docs.docker.com/ai/sandboxes/agents/opencode.md",
+      "file": "agents/opencode.md"
+    },
+    {
+      "source": "https://docs.docker.com/ai/sandboxes/agents/shell.md",
+      "file": "agents/shell.md"
+    },
+    {
+      "source": "https://docs.docker.com/ai/sandboxes/architecture.md",
+      "file": "architecture.md"
+    },
+    {
+      "source": "https://docs.docker.com/ai/sandboxes/cloud.md",
+      "file": "cloud.md"
+    },
+    {
+      "source": "https://docs.docker.com/ai/sandboxes/cloud/credentials.md",
+      "file": "cloud/credentials.md"
+    },
+    {
+      "source": "https://docs.docker.com/ai/sandboxes/cloud/local-vs-cloud.md",
+      "file": "cloud/local-vs-cloud.md"
+    },
+    {
+      "source": "https://docs.docker.com/ai/sandboxes/cloud/move.md",
+      "file": "cloud/move.md"
+    },
+    {
+      "source": "https://docs.docker.com/ai/sandboxes/cloud/network-policy.md",
+      "file": "cloud/network-policy.md"
+    },
+    {
+      "source": "https://docs.docker.com/ai/sandboxes/cloud/usage.md",
+      "file": "cloud/usage.md"
+    },
+    {
+      "source": "https://docs.docker.com/ai/sandboxes/configuration.md",
+      "file": "configuration.md"
+    },
+    {
+      "source": "https://docs.docker.com/ai/sandboxes/configuration/credentials.md",
+      "file": "configuration/credentials.md"
+    },
+    {
+      "source": "https://docs.docker.com/ai/sandboxes/configuration/environment-files.md",
+      "file": "configuration/environment-files.md"
+    },
+    {
+      "source": "https://docs.docker.com/ai/sandboxes/configuration/gpu-passthrough.md",
+      "file": "configuration/gpu-passthrough.md"
+    },
+    {
+      "source": "https://docs.docker.com/ai/sandboxes/configuration/models.md",
+      "file": "configuration/models.md"
+    },
+    {
+      "source": "https://docs.docker.com/ai/sandboxes/configuration/registry-mirror.md",
+      "file": "configuration/registry-mirror.md"
+    },
+    {
+      "source": "https://docs.docker.com/ai/sandboxes/configuration/settings.md",
+      "file": "configuration/settings.md"
+    },
+    {
+      "source": "https://docs.docker.com/ai/sandboxes/configuration/upstream-proxy.md",
+      "file": "configuration/upstream-proxy.md"
+    },
+    {
+      "source": "https://docs.docker.com/ai/sandboxes/customize.md",
+      "file": "customize.md"
+    },
+    {
+      "source": "https://docs.docker.com/ai/sandboxes/customize/author.md",
+      "file": "customize/author.md"
+    },
+    {
+      "source": "https://docs.docker.com/ai/sandboxes/customize/author/base-images.md",
+      "file": "customize/author/base-images.md"
+    },
+    {
+      "source": "https://docs.docker.com/ai/sandboxes/customize/author/build-an-agent.md",
+      "file": "customize/author/build-an-agent.md"
+    },
+    {
+      "source": "https://docs.docker.com/ai/sandboxes/customize/author/distribute.md",
+      "file": "customize/author/distribute.md"
+    },
+    {
+      "source": "https://docs.docker.com/ai/sandboxes/customize/author/kit-sets.md",
+      "file": "customize/author/kit-sets.md"
+    },
+    {
+      "source": "https://docs.docker.com/ai/sandboxes/customize/author/patterns.md",
+      "file": "customize/author/patterns.md"
+    },
+    {
+      "source": "https://docs.docker.com/ai/sandboxes/customize/author/tool-mixins.md",
+      "file": "customize/author/tool-mixins.md"
+    },
+    {
+      "source": "https://docs.docker.com/ai/sandboxes/customize/kits-v2.md",
+      "file": "customize/kits-v2.md"
+    },
+    {
+      "source": "https://docs.docker.com/ai/sandboxes/customize/use-kits.md",
+      "file": "customize/use-kits.md"
+    },
+    {
+      "source": "https://docs.docker.com/ai/sandboxes/faq.md",
+      "file": "faq.md"
+    },
+    {
+      "source": "https://docs.docker.com/ai/sandboxes/get-started.md",
+      "file": "get-started.md"
+    },
+    {
+      "source": "https://docs.docker.com/ai/sandboxes/governance.md",
+      "file": "governance.md"
+    },
+    {
+      "source": "https://docs.docker.com/ai/sandboxes/governance/access-controls.md",
+      "file": "governance/access-controls.md"
+    },
+    {
+      "source": "https://docs.docker.com/ai/sandboxes/governance/access-controls/filesystem.md",
+      "file": "governance/access-controls/filesystem.md"
+    },
+    {
+      "source": "https://docs.docker.com/ai/sandboxes/governance/access-controls/local.md",
+      "file": "governance/access-controls/local.md"
+    },
+    {
+      "source": "https://docs.docker.com/ai/sandboxes/governance/access-controls/mcp.md",
+      "file": "governance/access-controls/mcp.md"
+    },
+    {
+      "source": "https://docs.docker.com/ai/sandboxes/governance/access-controls/network.md",
+      "file": "governance/access-controls/network.md"
+    },
+    {
+      "source": "https://docs.docker.com/ai/sandboxes/governance/access-controls/organization.md",
+      "file": "governance/access-controls/organization.md"
+    },
+    {
+      "source": "https://docs.docker.com/ai/sandboxes/governance/audit.md",
+      "file": "governance/audit.md"
+    },
+    {
+      "source": "https://docs.docker.com/ai/sandboxes/governance/audit/configure.md",
+      "file": "governance/audit/configure.md"
+    },
+    {
+      "source": "https://docs.docker.com/ai/sandboxes/governance/audit/local.md",
+      "file": "governance/audit/local.md"
+    },
+    {
+      "source": "https://docs.docker.com/ai/sandboxes/governance/audit/record-reference.md",
+      "file": "governance/audit/record-reference.md"
+    },
+    {
+      "source": "https://docs.docker.com/ai/sandboxes/governance/audit/siem.md",
+      "file": "governance/audit/siem.md"
+    },
+    {
+      "source": "https://docs.docker.com/ai/sandboxes/governance/audit/view-export.md",
+      "file": "governance/audit/view-export.md"
+    },
+    {
+      "source": "https://docs.docker.com/ai/sandboxes/governance/concepts.md",
+      "file": "governance/concepts.md"
+    },
+    {
+      "source": "https://docs.docker.com/ai/sandboxes/governance/monitor-and-enforce.md",
+      "file": "governance/monitor-and-enforce.md"
+    },
+    {
+      "source": "https://docs.docker.com/ai/sandboxes/governance/monitor-and-enforce/monitoring.md",
+      "file": "governance/monitor-and-enforce/monitoring.md"
+    },
+    {
+      "source": "https://docs.docker.com/ai/sandboxes/governance/monitor-and-enforce/sign-in-enforcement.md",
+      "file": "governance/monitor-and-enforce/sign-in-enforcement.md"
+    },
+    {
+      "source": "https://docs.docker.com/ai/sandboxes/governance/reference.md",
+      "file": "governance/reference.md"
+    },
+    {
+      "source": "https://docs.docker.com/ai/sandboxes/governance/reference/mcp-policy.md",
+      "file": "governance/reference/mcp-policy.md"
+    },
+    {
+      "source": "https://docs.docker.com/ai/sandboxes/install.md",
+      "file": "install.md"
+    },
+    {
+      "source": "https://docs.docker.com/ai/sandboxes/integrations.md",
+      "file": "integrations.md"
+    },
+    {
+      "source": "https://docs.docker.com/ai/sandboxes/integrations/chatgpt.md",
+      "file": "integrations/chatgpt.md"
+    },
+    {
+      "source": "https://docs.docker.com/ai/sandboxes/integrations/claude-desktop.md",
+      "file": "integrations/claude-desktop.md"
+    },
+    {
+      "source": "https://docs.docker.com/ai/sandboxes/integrations/cursor.md",
+      "file": "integrations/cursor.md"
+    },
+    {
+      "source": "https://docs.docker.com/ai/sandboxes/integrations/t3-code.md",
+      "file": "integrations/t3-code.md"
+    },
+    {
+      "source": "https://docs.docker.com/ai/sandboxes/integrations/vscode.md",
+      "file": "integrations/vscode.md"
+    },
+    {
+      "source": "https://docs.docker.com/ai/sandboxes/mcp-gateway.md",
+      "file": "mcp-gateway.md"
+    },
+    {
+      "source": "https://docs.docker.com/ai/sandboxes/release-notes.md",
+      "file": "release-notes.md"
+    },
+    {
+      "source": "https://docs.docker.com/ai/sandboxes/security.md",
+      "file": "security.md"
+    },
+    {
+      "source": "https://docs.docker.com/ai/sandboxes/security/defaults.md",
+      "file": "security/defaults.md"
+    },
+    {
+      "source": "https://docs.docker.com/ai/sandboxes/security/isolation.md",
+      "file": "security/isolation.md"
+    },
+    {
+      "source": "https://docs.docker.com/ai/sandboxes/troubleshooting.md",
+      "file": "troubleshooting.md"
+    },
+    {
+      "source": "https://docs.docker.com/ai/sandboxes/usage.md",
+      "file": "usage.md"
+    },
+    {
+      "source": "https://docs.docker.com/ai/sandboxes/workflows.md",
+      "file": "workflows.md"
+    },
+    {
+      "source": "https://docs.docker.com/ai/sandboxes/workflows/agent-skills.md",
+      "file": "workflows/agent-skills.md"
+    },
+    {
+      "source": "https://docs.docker.com/ai/sandboxes/workflows/authentication.md",
+      "file": "workflows/authentication.md"
+    },
+    {
+      "source": "https://docs.docker.com/ai/sandboxes/workflows/automation.md",
+      "file": "workflows/automation.md"
+    },
+    {
+      "source": "https://docs.docker.com/ai/sandboxes/workflows/development.md",
+      "file": "workflows/development.md"
+    },
+    {
+      "source": "https://docs.docker.com/ai/sandboxes/workflows/git.md",
+      "file": "workflows/git.md"
+    }
+  ]
+}
