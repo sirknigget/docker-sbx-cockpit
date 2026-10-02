@@ -57,4 +57,4 @@ jobs:
           name: npm-package
           path: npm-package
       - name: Publish verified version ${{ needs.package.outputs.version }}
-        run: npm publish ./npm-package/*.tgz --access public --provenance
+        run: npm publish ./npm-package/*.tgz --access public --provenance --loglevel verbose
