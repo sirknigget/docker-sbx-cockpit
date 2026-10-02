@@ -4,6 +4,7 @@ import { verifyPackage } from '../scripts/package-contents';
 const minimumEntries = [
   'package.json',
   'README.md',
+  'LICENSE',
   'bin/sbx-cockpit.mjs',
   'dist/server/main.js',
   'dist/shared/contracts.js',
@@ -15,7 +16,7 @@ const minimumEntries = [
 ];
 
 test('accepts a standalone runtime package with bundled frontend assets', () => {
-  expect(() => verifyPackage([...minimumEntries, 'LICENSE'])).not.toThrow();
+  expect(() => verifyPackage(minimumEntries)).not.toThrow();
 });
 
 test.each([
@@ -33,6 +34,7 @@ test.each([
 
 test.each([
   'package.json',
+  'LICENSE',
   'bin/sbx-cockpit.mjs',
   'dist/server/main.js',
   'dist/shared/contracts.js',

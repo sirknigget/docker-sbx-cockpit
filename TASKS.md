@@ -70,8 +70,9 @@ The tag-only publish workflow accepts canonical x.x.x tags on main history,
 stamps the build's package/lock version from the tag, checks the full gate and
 publishes the exact verified tarball. Release tests include older main commits,
 annotated tags, invalid formats, off-main commits and plain-main push rejection.
-Live npm publication verification is pending trusted-publisher configuration; no release tag
-has been pushed yet.
+Initial registration and trusted-publisher setup were completed by the owner.
+The 0.1.1 tag on the existing main commit passed the build gate, but publication
+failed because npm parsed the archive path without ./ as a Git reference.
 Local full gate passed: strict lint, Prettier, TypeScript, 88 unit/integration
 tests, 17 browser tests with unchanged screenshot baselines, and global-install
 package verification. No real sbx operations were performed.
@@ -85,7 +86,16 @@ Trusted publishing follow-up: removed static credential configuration and its
 fallback from the release workflow. Added an OIDC-only workflow contract check
 and documented package registration with interactive npm login/2FA, followed by
 the permanent GitHub trusted-publisher settings. Live automated publication
-remains pending the initial npm package registration and trusted-publisher setup.
+is being verified through the release tags below.
 The full quality gate passed: strict lint, Prettier, TypeScript, 89 unit/integration
 tests, 17 browser tests with unchanged screenshots, and global-install package
 verification. No npm publication or real sbx operations were performed.
+
+Apache license and release fix: added the official Apache-2.0 LICENSE, package
+metadata and README attribution. Archive validation requires LICENSE. Fixed the
+publish command to use ./npm-package/*.tgz, and added an offline npm publish dry
+run to package verification so archive resolution is checked before publication.
+The failed 0.1.1 tag remains unchanged; the licensed release will use 0.1.2.
+Full local gate passed: strict lint, Prettier, TypeScript, 90 unit/integration
+tests, 17 browser tests with unchanged screenshots, archive publish dry run and
+isolated global installation. LICENSE matches the official Apache 2.0 text.

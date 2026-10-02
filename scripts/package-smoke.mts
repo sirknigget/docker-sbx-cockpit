@@ -88,6 +88,41 @@ async function freePort() {
   return address.port;
 }
 
+async function verifyPublish(
+  tarball: string,
+  temporary: string,
+  cache: string,
+) {
+  const directory = join(temporary, 'npm-package');
+
+  await mkdir(directory);
+  await copyFile(tarball, join(directory, basename(tarball)));
+
+  const output = await command(
+    'npm',
+    [
+      'publish',
+      `./npm-package/${basename(tarball)}`,
+      '--dry-run',
+      '--offline',
+      '--json',
+      '--access',
+      'public',
+      '--ignore-scripts',
+    ],
+    temporary,
+    cache,
+  );
+  const published = z
+    .object({
+      name: z.literal('docker-sbx-cockpit'),
+      files: z.array(z.object({ path: z.string() })),
+    })
+    .parse(JSON.parse(output));
+
+  verifyPackage(published.files.map((file) => file.path));
+}
+
 function startCli(executable: string, cwd: string, port: number) {
   const child = spawn(executable, ['--port', String(port)], {
     cwd,
@@ -250,6 +285,8 @@ async function main() {
   try {
     const tarball = await pack(process.cwd(), temporary, cache);
 
+    await verifyPublish(tarball, temporary, cache);
+
     await mkdir(launchDirectory);
     await command(
       'npm',
@@ -291,7 +328,7 @@ async function main() {
     await retainPackage(tarball);
 
     console.log(
-      'Package smoke passed: tarball, isolated global install, CLI help, health and frontend assets.',
+      'Package smoke passed: tarball, publish dry run, isolated global install, CLI help, health and frontend assets.',
     );
   } finally {
     if (running) await stop(running.child, running.closed);

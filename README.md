@@ -126,3 +126,8 @@ credential for that registry.
 | Port 9876 is already in use                                 | Start with `sbx-cockpit --port 9880` and open that address instead.                                                                  |
 | A sandbox changed elsewhere but the list looks outdated     | Click **Refresh**.                                                                                                                   |
 | A command timed out                                         | Refresh and check the sandbox before retrying; the operation may already have taken effect.                                          |
+
+## License
+
+Copyright 2026 Omer Gilad. Docker Sandbox Cockpit is licensed under the
+[Apache License, Version 2.0](LICENSE).

@@ -183,7 +183,7 @@ test('workflow only triggers for tags and publishes the verified tarball after c
   expect(pkg.scripts.check).toContain('npm run test:package');
   expect(workflow.jobs.publish.needs).toBe('package');
   expect(publishing).toContain(
-    'npm publish npm-package/*.tgz --access public --provenance',
+    'npm publish ./npm-package/*.tgz --access public --provenance',
   );
   expect(packaging.join('\n')).not.toContain('npm publish');
 });

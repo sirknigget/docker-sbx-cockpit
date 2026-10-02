@@ -80,11 +80,12 @@ TASKS.md. Keep README focused on human users.
 
 ## npm releases
 
-The package ships only `bin/`, `dist/`, README and package metadata. `prepack`
-builds the Nest backend, shared modules and bundled React frontend. Frontend-only
+The package ships only `bin/`, `dist/`, README, Apache-2.0 LICENSE and package
+metadata. `prepack` builds the Nest backend, shared modules and bundled React frontend. Frontend-only
 libraries are dev dependencies. Users need Node.js and sbx; no build tools.
-`npm run test:package` packs, validates contents, installs into a temporary global
-prefix, and verifies CLI help, health and static assets from an unrelated folder.
+`npm run test:package` packs, validates contents, dry-runs publishing the local
+archive offline, installs into a temporary global prefix, and verifies CLI help,
+health and static assets from an unrelated folder.
 It never invokes sbx. `PACKAGE_OUTPUT_DIR` retains the verified tarball for CI.
 
 `.github/workflows/publish.yml` triggers only on pushed tags. The release script
@@ -105,11 +106,9 @@ Actions as the trusted publisher: user `sirknigget`, repository
 `npm publish`. Set publishing access to require 2FA and disallow tokens;
 trusted publishing continues to work with that setting.
 
-For a new package, npm currently requires an initial interactive publication
-before its trusted-publisher settings exist. Use local `npm login` and normal
-2FA, run `npm run check`, then `npm publish --access public`. This creates the
-current package version (0.1.0). Configure trusted publishing afterward, and use
-the next unpublished tag (for example 0.1.1) to verify the automatic release.
+The npm package is registered: version 0.1.0 was published interactively, and
+the owner configured the GitHub trusted publisher. Future releases use tags;
+do not repeat package registration or add automation tokens.
 Keep release instructions here, and user installation instructions in README.
 
 ## Live testing: preserve existing resources

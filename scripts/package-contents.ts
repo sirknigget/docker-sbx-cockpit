@@ -30,6 +30,7 @@ export function verifyPackage(entries: string[]) {
 
   for (const required of [
     'package.json',
+    'LICENSE',
     'bin/sbx-cockpit.mjs',
     'dist/server/main.js',
     'dist/shared/contracts.js',
