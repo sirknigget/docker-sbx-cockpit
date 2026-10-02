@@ -111,6 +111,12 @@ the owner configured the GitHub trusted publisher. Future releases use tags;
 do not repeat package registration or add automation tokens.
 Keep release instructions here, and user installation instructions in README.
 
+GitHub CLI is installed and authenticated; use `gh run view --log-failed` to
+inspect release failures. Publishing logs include npm's verbose OIDC exchange
+diagnostics. An identity request can succeed while npm rejects the exchange;
+check the saved npm trust fields before changing workflow permissions. npm's
+owner-only trust settings may require interactive 2FA. Do not log credentials.
+
 ## Live testing: preserve existing resources
 
 Never mutate, stop, execute in, delete, or save templates from a pre-existing

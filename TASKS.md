@@ -118,3 +118,15 @@ no credentials or token fallback were added. The next diagnostic release uses
 0.1.4 and leaves existing tags unchanged.
 Release build: https://github.com/sirknigget/docker-sbx-cockpit/actions/runs/37002885181
 Main-only checks: https://github.com/sirknigget/docker-sbx-cockpit/actions/runs/37002872911
+
+Authenticated release diagnostics: installed GitHub CLI 2.101.0 via Homebrew;
+the owner authenticated it. The local full gate passed again (97 unit tests,
+17 browser tests, unchanged screenshots and isolated global package installation).
+The plain main push passed quality checks without triggering publication.
+The 0.1.4 tag passed the complete release build. Verbose logs confirm GitHub
+issued an OIDC identity, but npm returned HTTP 404 with "OIDC token exchange
+error - package not found". Registry metadata confirms docker-sbx-cockpit exists
+and is maintained by sirknigget; no new version was published. Saved npm trust
+fields require owner authentication and still need inspection before retrying.
+Diagnostic release: https://github.com/sirknigget/docker-sbx-cockpit/actions/runs/37045353619
+Main-only checks: https://github.com/sirknigget/docker-sbx-cockpit/actions/runs/37045350119
