@@ -14,22 +14,23 @@ inside the sandbox through `sbx exec`.
 
 ## Project map
 
-| Path                                                                     | Responsibility                                                                         |
-| ------------------------------------------------------------------------ | -------------------------------------------------------------------------------------- |
-| `bin/sbx-cockpit.mjs`                                                    | CLI help and port validation; starts the compiled server.                              |
-| `server/main.ts`, `server/bootstrap.ts`, `server/module.ts`              | Local HTTP startup, injectable adapters, Nest controllers and static frontend serving. |
-| `server/runner.ts`, `server/security.ts`                                 | Bounded sbx subprocess execution, local request protection and error handling.         |
-| `server/sandboxes.ts`, `server/configuration.ts`                         | Lifecycle, templates, scoped secrets and published ports.                              |
-| `server/inspection*.ts`                                                  | Files and disk scripts, persistent terminal sessions and sbx transport.                |
-| `shared/`                                                                | Zod request/response schemas and shared types; validate both sides of the API.         |
-| `web/app.tsx`, `web/layout.tsx`, `web/api.ts`                            | React navigation, shell and validated API client.                                      |
-| `web/` feature components and CSS                                        | Sandbox creation/list/detail, templates, secrets, ports, files, disk and terminal UI.  |
-| `tests/*.test.ts`                                                        | Vitest backend, CLI, subprocess and inspection tests.                                  |
-| `tests/e2e/`, `tests/fixture*.ts`, `scripts/fixture-server.ts`           | Playwright workflows, screenshot baselines and in-memory CLI/terminal adapters.        |
-| `scripts/live-test.mts`                                                  | Ownership-tracked live API tests; records inventories in ignored `.live-test/`.        |
-| `docs/`, `scripts/fetch-docs.py`                                         | Downloaded Docker docs, captured CLI help and Markdown downloader.                     |
-| `oxlint.config.mts`, `.prettierrc.json`, `tsconfig*.json`, `*.config.ts` | Lint, formatting, TypeScript, build and test configuration.                            |
-| `.github/workflows/quality.yml`, `TASKS.md`                              | macOS quality gate and completed vertical slices with verification evidence.           |
+| Path                                                                      | Responsibility                                                                                  |
+| ------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- |
+| `bin/sbx-cockpit.mjs`                                                     | CLI help and port validation; starts the compiled server.                                       |
+| `server/main.ts`, `server/bootstrap.ts`, `server/module.ts`               | Local HTTP startup, injectable adapters, Nest controllers and static frontend serving.          |
+| `server/runner.ts`, `server/security.ts`                                  | Bounded sbx subprocess execution, local request protection and error handling.                  |
+| `server/sandboxes.ts`, `server/configuration.ts`                          | Lifecycle, templates, scoped secrets and published ports.                                       |
+| `server/inspection*.ts`                                                   | Files and disk scripts, persistent terminal sessions and sbx transport.                         |
+| `shared/`                                                                 | Zod request/response schemas and shared types; validate both sides of the API.                  |
+| `web/app.tsx`, `web/layout.tsx`, `web/api.ts`                             | React navigation, shell and validated API client.                                               |
+| `web/` feature components and CSS                                         | Sandbox creation/list/detail, templates, secrets, ports, files, disk and terminal UI.           |
+| `tests/*.test.ts`                                                         | Vitest backend, CLI, subprocess and inspection tests.                                           |
+| `tests/e2e/`, `tests/fixture*.ts`, `scripts/fixture-server.ts`            | Playwright workflows, screenshot baselines and in-memory CLI/terminal adapters.                 |
+| `scripts/release.mts`, `scripts/package*.ts`, `scripts/package-smoke.mts` | Tag validation/version stamping, runtime archive checks and isolated global-install smoke test. |
+| `scripts/live-test.mts`                                                   | Ownership-tracked live API tests; records inventories in ignored `.live-test/`.                 |
+| `docs/`, `scripts/fetch-docs.py`                                          | Downloaded Docker docs, captured CLI help and Markdown downloader.                              |
+| `oxlint.config.mts`, `.prettierrc.json`, `tsconfig*.json`, `*.config.ts`  | Lint, formatting, TypeScript, build and test configuration.                                     |
+| `.github/workflows/`, `TASKS.md`                                          | macOS quality gate, tag-only npm publishing and completed verification evidence.                |
 
 Build output is ignored `dist/server/` (CommonJS) and `dist/web/` (Vite).
 `createApp` accepts runner and terminal adapters so fixture tests never run sbx.
@@ -39,7 +40,8 @@ The API lives under `/api`; requests require `X-Cockpit-Request: 1`, except
 ## Local reference docs
 
 Docker Sandbox documentation is already downloaded in `docs/docker-sandboxes/`:
-198 original Markdown pages, including 79 guides and 119 CLI reference pages.
+79 original guide pages. CLI reference pages were removed from the repository;
+use the captured CLI help for command options.
 `docs/docker-sandboxes/manifest.json` records their sources. Read the relevant
 pages and `docs/sbx-help/` before changing CLI integration. CLI help was captured
 from sbx v0.46.0 on 2026-09-30. `npm run docs:fetch` refreshes Markdown sources.
@@ -53,7 +55,8 @@ using another backend port. `npm run build` compiles both sides; `npm start`
 serves the production build.
 
 Run `npm run check` before finishing. It runs strict Oxlint/anti-slop, Prettier,
-TypeScript, Vitest, the production build and Playwright. Install Chromium with
+TypeScript, Vitest, the production build, Playwright and a package smoke test.
+Install Chromium with
 `npx playwright install chromium` first. CI runs on macOS.
 
 Keep the exact anti-slop limits: cognitive complexity 12, cyclomatic complexity
@@ -74,6 +77,32 @@ change. Review platform-specific baselines before running on another OS.
 
 Implement, verify, commit and push each vertical slice; track progress in
 TASKS.md. Keep README focused on human users.
+
+## npm releases
+
+The package ships only `bin/`, `dist/`, README and package metadata. `prepack`
+builds the Nest backend, shared modules and bundled React frontend. Frontend-only
+libraries are dev dependencies. Users need Node.js and sbx; no build tools.
+`npm run test:package` packs, validates contents, installs into a temporary global
+prefix, and verifies CLI help, health and static assets from an unrelated folder.
+It never invokes sbx. `PACKAGE_OUTPUT_DIR` retains the verified tarball for CI.
+
+`.github/workflows/publish.yml` triggers only on pushed tags. The release script
+rejects anything except canonical `x.x.x` and requires the tagged checkout to be
+an ancestor of `origin/main`. Main pushes alone run quality checks, not publishing.
+A tag can target any existing main commit containing the release workflow. The
+build checkout's package and lock versions are set from the tag without creating
+a commit or another tag. CI runs the full gate, then publishes that same verified
+tarball with provenance.
+
+Create releases with `git tag 0.1.0 <main-commit>` and `git push origin 0.1.0`;
+replace the version with an unpublished one. Do not force or move release tags.
+For bootstrap, add a granular npm publishing token with write access and
+noninteractive publishing (bypass 2FA) as repository secret
+`NPM_TOKEN`. Once the package exists, configure npm trusted publishing for user
+`sirknigget`, repository `docker-sbx-cockpit`, workflow `publish.yml`, allowing
+`npm publish`; the workflow supports OIDC with no token. Never commit credentials.
+Keep release instructions here, and user installation instructions in README.
 
 ## Live testing: preserve existing resources
 

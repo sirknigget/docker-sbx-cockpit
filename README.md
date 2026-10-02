@@ -15,9 +15,21 @@ You'll need:
   with `sbx` available in your terminal.
   This version has been tested with sbx v0.46.0.
 - Node.js 22.12 or newer, including npm.
-- Git and pnpm installed to download and install the app from source.
 
 Check that Docker Sandboxes is available with `sbx --help`, then install Cockpit:
+
+```sh
+npm install -g docker-sbx-cockpit
+sbx-cockpit
+```
+
+Open [Cockpit](http://127.0.0.1:9876) in your browser. Keep the terminal running
+while you use the app; press **Ctrl+C** there to stop serving Cockpit.
+
+### Build from source
+
+You can also install from this repository. This requires Git and pnpm in
+addition to Node.js:
 
 ```sh
 git clone https://github.com/sirknigget/docker-sbx-cockpit.git
@@ -27,13 +39,10 @@ npm run build
 npm start
 ```
 
-Open [Cockpit](http://127.0.0.1:9876) in your browser. Keep the terminal running
-while you use the app; press **Ctrl+C** there to stop serving Cockpit.
-
 ### Use a different port
 
 ```sh
-npm start -- --port 9880
+sbx-cockpit --port 9880
 ```
 
 Then open [http://127.0.0.1:9880](http://127.0.0.1:9880). You can also set the
@@ -41,8 +50,9 @@ Then open [http://127.0.0.1:9880](http://127.0.0.1:9880). You can also set the
 this machine, at `127.0.0.1`.
 
 To use the `sbx-cockpit` command from any folder, run `npm link` once from the
-project folder after building. Then run `sbx-cockpit`, or
-`sbx-cockpit --port 9880`. Use `sbx-cockpit --help` to see its options.
+project folder after building from source. You can also run
+`npm start -- --port 9880` from that folder. Use `sbx-cockpit --help` to see its
+options.
 
 ## Create your first sandbox
 
@@ -113,6 +123,6 @@ credential for that registry.
 | ----------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
 | Cockpit can't find `sbx`                                    | Run `sbx --help` in the same terminal used to start Cockpit. Make sure the CLI is installed and on your PATH, then restart Cockpit.  |
 | Docker reports an unavailable service or a download failure | Check that Docker Sandboxes is running and that your network can reach the image registry. The app displays the CLI's error message. |
-| Port 9876 is already in use                                 | Start with `npm start -- --port 9880` and open that address instead.                                                                 |
+| Port 9876 is already in use                                 | Start with `sbx-cockpit --port 9880` and open that address instead.                                                                  |
 | A sandbox changed elsewhere but the list looks outdated     | Click **Refresh**.                                                                                                                   |
 | A command timed out                                         | Refresh and check the sandbox before retrying; the operation may already have taken effect.                                          |

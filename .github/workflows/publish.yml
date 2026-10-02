@@ -1,0 +1,63 @@
+name: Publish npm package
+
+on:
+  push:
+    tags:
+      - '*.*.*'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: npm-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  package:
+    runs-on: macos-latest
+    outputs:
+      version: ${{ steps.release.outputs.version }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Validate tag and set package version
+        id: release
+        run: node scripts/release.mts
+      - run: npm install --global pnpm@10.33.0
+      - run: npm ci
+      - run: npx playwright install chromium
+      - name: Run quality gate and verify the release tarball
+        run: npm run check
+        env:
+          PACKAGE_OUTPUT_DIR: ${{ runner.temp }}/npm-package
+      - uses: actions/upload-artifact@v4
+        with:
+          name: npm-package
+          path: ${{ runner.temp }}/npm-package/*.tgz
+          if-no-files-found: error
+
+  publish:
+    needs: package
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          registry-url: https://registry.npmjs.org
+      - run: npm install --global npm@11.10.1
+      - uses: actions/download-artifact@v4
+        with:
+          name: npm-package
+          path: npm-package
+      - name: Publish verified version ${{ needs.package.outputs.version }}
+        run: npm publish npm-package/*.tgz --access public --provenance
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

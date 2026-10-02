@@ -61,3 +61,17 @@ sandbox creation, product workflows, limits and troubleshooting. AGENTS.md holds
 the project map, development and testing commands, CLI integration context and
 resource ownership rules. The full quality gate passed; application code and
 screenshot baselines are unchanged.
+
+npm release follow-up: package includes the CLI and compiled backend/shared/web
+assets, with frontend libraries kept out of runtime dependencies. Global install
+smoke checks validate archive contents, the installed version, CLI help, health
+and frontend assets from another working directory, without invoking sbx.
+The tag-only publish workflow accepts canonical x.x.x tags on main history,
+stamps the build's package/lock version from the tag, checks the full gate and
+publishes the exact verified tarball. Release tests include older main commits,
+annotated tags, invalid formats, off-main commits and plain-main push rejection.
+Live npm publication verification is pending npm authentication; no release tag
+has been pushed yet.
+Local full gate passed: strict lint, Prettier, TypeScript, 88 unit/integration
+tests, 17 browser tests with unchanged screenshot baselines, and global-install
+package verification. No real sbx operations were performed.
