@@ -75,3 +75,8 @@ has been pushed yet.
 Local full gate passed: strict lint, Prettier, TypeScript, 88 unit/integration
 tests, 17 browser tests with unchanged screenshot baselines, and global-install
 package verification. No real sbx operations were performed.
+GitHub's quality workflow passed for the plain main push; no publishing workflow
+was triggered. A temporary clone with an annotated 10.20.30 tag on an older main
+commit produced and globally installed the exact 10.20.30 package through the
+real Node release entry point. The fixture tag and all temporary resources were
+removed; no remote release tag or npm version was created.
