@@ -16,6 +16,7 @@ import { setTimeout as delay } from 'node:timers/promises';
 import { promisify } from 'node:util';
 import { z } from 'zod';
 import { verifyPackage } from './package-contents';
+import { publishedFiles } from './publish-result';
 
 const execute = promisify(execFile);
 const registry = 'https://registry.npmjs.org';
@@ -113,14 +114,8 @@ async function verifyPublish(
     temporary,
     cache,
   );
-  const published = z
-    .object({
-      name: z.literal('docker-sbx-cockpit'),
-      files: z.array(z.object({ path: z.string() })),
-    })
-    .parse(JSON.parse(output));
 
-  verifyPackage(published.files.map((file) => file.path));
+  verifyPackage(publishedFiles(output));
 }
 
 function startCli(executable: string, cwd: string, port: number) {

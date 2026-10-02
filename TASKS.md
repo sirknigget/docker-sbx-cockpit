@@ -95,7 +95,17 @@ Apache license and release fix: added the official Apache-2.0 LICENSE, package
 metadata and README attribution. Archive validation requires LICENSE. Fixed the
 publish command to use ./npm-package/*.tgz, and added an offline npm publish dry
 run to package verification so archive resolution is checked before publication.
-The failed 0.1.1 tag remains unchanged; the licensed release will use 0.1.2.
+The failed 0.1.1 tag remains unchanged; the first licensed release attempt used 0.1.2.
 Full local gate passed: strict lint, Prettier, TypeScript, 90 unit/integration
 tests, 17 browser tests with unchanged screenshots, archive publish dry run and
 isolated global installation. LICENSE matches the official Apache 2.0 text.
+
+CI compatibility follow-up: the 0.1.2 tag reached the quality gate but did not
+publish. Its new publish dry-run check assumed npm 11.10's flat JSON result;
+Node 24's current npm 11.19 returns results keyed by package name. Reproduced
+the failure with npm 11.19, added validated parsing and captured-format tests for
+both outputs, and verified a disposable 0.1.3 tagged package with npm 11.19.
+Temporary tools, fixture tag and archive were removed. Release tags are never
+moved; the corrected licensed release will use 0.1.3.
+Full local gate passed: strict lint, Prettier, TypeScript, 97 unit/integration
+tests, 17 browser tests with unchanged screenshots and package verification.
