@@ -109,3 +109,10 @@ Temporary tools, fixture tag and archive were removed. Release tags are never
 moved; the corrected licensed release will use 0.1.3.
 Full local gate passed: strict lint, Prettier, TypeScript, 97 unit/integration
 tests, 17 browser tests with unchanged screenshots and package verification.
+GitHub's 0.1.3 release build and the main-only quality run both passed. Only the
+tag triggered the publishing workflow. Publication failed in the publish job;
+0.1.3 is not in the npm registry. Detailed GitHub logs require authentication,
+and reading npm's trust settings requires owner 2FA. Awaiting the publish error
+from the owner before changing any further release configuration.
+Release build: https://github.com/sirknigget/docker-sbx-cockpit/actions/runs/37002885181
+Main-only checks: https://github.com/sirknigget/docker-sbx-cockpit/actions/runs/37002872911
