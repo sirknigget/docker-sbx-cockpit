@@ -97,11 +97,19 @@ tarball with provenance.
 
 Create releases with `git tag 0.1.0 <main-commit>` and `git push origin 0.1.0`;
 replace the version with an unpublished one. Do not force or move release tags.
-For bootstrap, add a granular npm publishing token with write access and
-noninteractive publishing (bypass 2FA) as repository secret
-`NPM_TOKEN`. Once the package exists, configure npm trusted publishing for user
-`sirknigget`, repository `docker-sbx-cockpit`, workflow `publish.yml`, allowing
-`npm publish`; the workflow supports OIDC with no token. Never commit credentials.
+Publishing uses npm trusted publishing (OIDC) only, with GitHub-hosted runners,
+Node 24, npm 11.10.1 and `id-token: write`. Do not add static npm credentials or
+a token fallback to the workflow. In the npm package settings, select GitHub
+Actions as the trusted publisher: user `sirknigget`, repository
+`docker-sbx-cockpit`, workflow `publish.yml`, environment blank, and allow direct
+`npm publish`. Set publishing access to require 2FA and disallow tokens;
+trusted publishing continues to work with that setting.
+
+For a new package, npm currently requires an initial interactive publication
+before its trusted-publisher settings exist. Use local `npm login` and normal
+2FA, run `npm run check`, then `npm publish --access public`. This creates the
+current package version (0.1.0). Configure trusted publishing afterward, and use
+the next unpublished tag (for example 0.1.1) to verify the automatic release.
 Keep release instructions here, and user installation instructions in README.
 
 ## Live testing: preserve existing resources

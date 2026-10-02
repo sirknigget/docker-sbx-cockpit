@@ -152,6 +152,10 @@ const workflowSchema = z.object({
     }),
     publish: z.object({
       needs: z.string(),
+      permissions: z.object({
+        contents: z.literal('read'),
+        'id-token': z.literal('write'),
+      }),
       steps: z.array(z.object({ run: z.string().optional() }).passthrough()),
     }),
   }),
@@ -182,4 +186,14 @@ test('workflow only triggers for tags and publishes the verified tarball after c
     'npm publish npm-package/*.tgz --access public --provenance',
   );
   expect(packaging.join('\n')).not.toContain('npm publish');
+});
+
+test('publishing uses OIDC without stored credentials or token setup', () => {
+  const source = readFileSync('.github/workflows/publish.yml', 'utf8');
+  const workflow = workflowSchema.parse(parse(source));
+
+  expect(workflow.jobs.publish.permissions['id-token']).toBe('write');
+  expect(source).not.toContain('secrets.');
+  expect(source).not.toContain('NODE_AUTH_TOKEN');
+  expect(source).not.toContain('registry-url:');
 });

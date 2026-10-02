@@ -70,7 +70,7 @@ The tag-only publish workflow accepts canonical x.x.x tags on main history,
 stamps the build's package/lock version from the tag, checks the full gate and
 publishes the exact verified tarball. Release tests include older main commits,
 annotated tags, invalid formats, off-main commits and plain-main push rejection.
-Live npm publication verification is pending npm authentication; no release tag
+Live npm publication verification is pending trusted-publisher configuration; no release tag
 has been pushed yet.
 Local full gate passed: strict lint, Prettier, TypeScript, 88 unit/integration
 tests, 17 browser tests with unchanged screenshot baselines, and global-install
@@ -80,3 +80,12 @@ was triggered. A temporary clone with an annotated 10.20.30 tag on an older main
 commit produced and globally installed the exact 10.20.30 package through the
 real Node release entry point. The fixture tag and all temporary resources were
 removed; no remote release tag or npm version was created.
+
+Trusted publishing follow-up: removed static credential configuration and its
+fallback from the release workflow. Added an OIDC-only workflow contract check
+and documented package registration with interactive npm login/2FA, followed by
+the permanent GitHub trusted-publisher settings. Live automated publication
+remains pending the initial npm package registration and trusted-publisher setup.
+The full quality gate passed: strict lint, Prettier, TypeScript, 89 unit/integration
+tests, 17 browser tests with unchanged screenshots, and global-install package
+verification. No npm publication or real sbx operations were performed.
