@@ -106,9 +106,11 @@ Actions as the trusted publisher: user `sirknigget`, repository
 `npm publish`. Set publishing access to require 2FA and disallow tokens;
 trusted publishing continues to work with that setting.
 
-The npm package is registered: version 0.1.0 was published interactively, and
-the owner configured the GitHub trusted publisher. Future releases use tags;
-do not repeat package registration or add automation tokens.
+The npm package is registered: version 0.1.0 was published interactively. After
+the owner updated the trusted publisher, the 0.1.4 job successfully exchanged
+its GitHub identity and published 0.1.4 with provenance. Registry installation,
+CLI startup and served frontend assets were verified in temporary directories.
+Future releases use tags; do not repeat registration or add automation tokens.
 Keep release instructions here, and user installation instructions in README.
 
 GitHub CLI is installed and authenticated; use `gh run view --log-failed` to

@@ -130,3 +130,18 @@ and is maintained by sirknigget; no new version was published. Saved npm trust
 fields require owner authentication and still need inspection before retrying.
 Diagnostic release: https://github.com/sirknigget/docker-sbx-cockpit/actions/runs/37045353619
 Main-only checks: https://github.com/sirknigget/docker-sbx-cockpit/actions/runs/37045350119
+
+Trusted publishing retry: after the owner's npm settings update, reran only
+the failed 0.1.4 publish job, preserving the original tag and verified archive.
+Attempt 2 succeeded: OIDC exchange returned HTTP 201, provenance was signed and
+recorded in Sigstore, and npm accepted the release with HTTP 202 for processing.
+The main-only quality run also passed without triggering publication.
+Registry processing completed: 0.1.4 is public and is the latest dist-tag.
+Its archive SHA-1 matches the verified GitHub artifact. An isolated global
+installation from the public registry passed version, Apache-2.0 LICENSE,
+provenance presence, CLI help, configurable-port HTTP health and frontend asset
+checks from an unrelated working directory. The temporary server and install
+were removed; sbx was never invoked and existing resources were untouched.
+The local full gate passed: strict lint, Prettier, TypeScript, 97 unit tests,
+17 browser tests with unchanged screenshots and package verification.
+Successful publication: https://github.com/sirknigget/docker-sbx-cockpit/actions/runs/37045353619/attempts/2
